@@ -1,0 +1,18 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.4
+2 info using node@v22.17.0
+3 silly config load:file:C:\Users\user\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:H:\WebDev\Mune\frontend\.npmrc
+5 silly config load:file:C:\Users\user\.npmrc
+6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm exec next typegen
+8 verbose argv "exec" "next" "--" "typegen"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\.npm-cache\_logs\2026-01-11T04_10_49_889Z-
+10 verbose logfile H:\WebDev\Mune\.npm-cache\_logs\2026-01-11T04_10_49_889Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd H:\WebDev\Mune\frontend
+13 verbose os Windows_NT 10.0.19045
+14 verbose node v22.17.0
+15 verbose npm  v11.6.4
+16 verbose exit 0
+17 info ok

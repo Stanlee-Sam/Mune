@@ -33,7 +33,7 @@ model Pet {
 
 model Symptom {
   id          String      @id @default(uuid())
-  name        String
+  name        String @unique
   category    SymptomCategory
   description String?
   createdAt   DateTime    @default(now())

@@ -1,0 +1,29 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.4
+2 info using node@v22.17.0
+3 silly config load:file:C:\Users\user\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:h:\WebDev\Mune\.npm-cache\_npx\cc2145a2fe1558fa\.npmrc
+5 silly config load:file:C:\Users\user\.npmrc
+6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--package-lock-only"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\.npm-cache\_npx\cc2145a2fe1558fa\.npm-cache\_logs\2026-01-11T04_30_44_129Z-
+10 verbose logfile H:\WebDev\Mune\.npm-cache\_npx\cc2145a2fe1558fa\.npm-cache\_logs\2026-01-11T04_30_44_129Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 silly idealTree buildDeps
+14 silly audit bulk request { 'create-next-app': [ '16.1.1' ] }
+15 http fetch GET 200 https://registry.npmjs.org/npm 507ms
+16 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 420ms
+17 silly audit report {}
+18 verbose cwd h:\WebDev\Mune\.npm-cache\_npx\cc2145a2fe1558fa
+19 verbose os Windows_NT 10.0.19045
+20 verbose node v22.17.0
+21 verbose npm  v11.6.4
+22 notice
+22 notice New minor version of npm available! 11.6.4 -> 11.7.0
+22 notice Changelog: https://github.com/npm/cli/releases/tag/v11.7.0
+22 notice To update run: npm install -g npm@11.7.0
+22 notice  { force: true, [Symbol(proc-log.meta)]: true }
+23 verbose exit 0
+24 info ok
