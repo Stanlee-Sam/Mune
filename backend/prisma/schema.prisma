@@ -1,0 +1,125 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      Role     @default(OWNER)
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pets      Pet[]
+  outbreakReports  OutbreakReport[]
+}
+
+model Pet {
+  id        String   @id @default(uuid())
+  name      String
+  type      PetType  @default(CAT)
+  birthDate DateTime?
+  owner     User?     @relation(fields: [ownerId], references: [id])
+  ownerId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Symptom {
+  id          String      @id @default(uuid())
+  name        String
+  category    SymptomCategory
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  rules       RuleSymptom[]
+}
+
+model Rule {
+  id             String       @id @default(uuid())
+  name           String       // e.g., "Vomiting + Lethargy"
+  description    String?
+  riskLevel      RiskLevel
+  action         Action
+  isOverride     Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  symptoms       RuleSymptom[]
+  minDurationHrs Int?         // optional, e.g., vomiting > 24hrs
+  ageLimitMonths Int?          // for kitten rules
+  outbreakActive Boolean?      // optional for outbreak rules
+}
+
+model RuleSymptom {
+  id        String   @id @default(uuid())
+  rule      Rule     @relation(fields: [ruleId], references: [id])
+  ruleId    String
+  symptom   Symptom  @relation(fields: [symptomId], references: [id])
+  symptomId String
+}
+
+model OutbreakReport {
+  id          String     @id @default(uuid())
+  diseaseName String
+  description String?
+  location    String
+  startDate   DateTime
+  reportedBy  User       @relation(fields: [vetId], references: [id])
+  vetId       String
+  status      OutbreakStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model VetClinic {
+  id                String   @id @default(uuid())
+  name              String
+  location          String
+  phone             String
+  emergencyAvailable Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Action {
+  MONITOR
+  BOOK_VET
+  SEE_VET
+  EMERGENCY
+}
+
+enum Role {
+  OWNER
+  VET
+}
+
+enum PetType {
+  CAT
+  DOG
+}
+
+enum SymptomCategory {
+  GI
+  RESPIRATORY
+  BEHAVIORAL
+  REPRODUCTIVE
+  OTHER
+}
+
+enum OutbreakStatus {
+  ACTIVE
+  RESOLVED
+}
