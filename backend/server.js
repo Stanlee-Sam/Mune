@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const userRoute = require('./routes/usersRoute.js')
 const evaluateRoute = require("./routes/evaluateRoute.js");
+const outbreakRoute = require("./routes/outbreakRoute.js");
+const clinicRoute = require("./routes/clinicRoute.js");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -20,8 +20,15 @@ app.use(
     credentials: true,
   })
 );
+
+//evaluate route
 app.use("/", evaluateRoute);
+//users route
 app.use("/users", userRoute);
+//outbreak route
+app.use('/outbreak', outbreakRoute)
+//clinic route
+app.use('/clinic', clinicRoute)
 
 app.listen(5000, () => {
   console.log("Server is running on port 5000");

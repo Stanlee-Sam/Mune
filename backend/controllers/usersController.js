@@ -89,14 +89,14 @@ const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const { location, name } = req.body;
-    if (!location || !name) {
-      res.status(400).json({ message: "All fields are required" });
+    if (!location && !name) {
+      res.status(400).json({ message: "At least one field is required" });
     }
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
-        location: location || null,
-        name: name,
+       location: location !== undefined ? location : undefined,
+        name: name !== undefined ? name : undefined,
       },
     });
     res.json({ updatedUser });
