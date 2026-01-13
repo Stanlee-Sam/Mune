@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const prisma = new PrismaClient();
 
-
 const generateAccessToken = (user) => {
   return jwt.sign(
     { userId: user.id, role: user.role || "user" },
@@ -47,7 +46,7 @@ const registerUser = async (req, res) => {
     console.error("Error registering user:", error.message);
     res.status(500).json({ message: "Failed to register user" });
   }
-}
+};
 
 const loginUser = async (req, res) => {
   try {
@@ -84,6 +83,37 @@ const loginUser = async (req, res) => {
     console.error("Error logging in user:", error.message);
     res.status(500).json({ message: "Failed to log in user" });
   }
-}
+};
 
-module.exports = {registerUser, loginUser}
+const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { location, name } = req.body;
+    if (!location || !name) {
+      res.status(400).json({ message: "All fields are required" });
+    }
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        location: location || null,
+        name: name,
+      },
+    });
+    res.json({ updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error.message);
+    res.status(500).json({ message: "Failed to update user" });
+  }
+};
+
+const getUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json({ users });
+  } catch (error) {
+    console.error("Error fetching users:", error.message);
+    res.status(500).json({ message: "Failed to fetch users" });
+  }
+};
+
+module.exports = { registerUser, loginUser, updateUser, getUsers };
