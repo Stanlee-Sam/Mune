@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const { PrismaClient } = require("@prisma/client");
 
 const userRoute = require('./routes/usersRoute.js')
 const evaluateRoute = require("./routes/evaluateRoute.js");
@@ -8,14 +7,12 @@ const outbreakRoute = require("./routes/outbreakRoute.js");
 const clinicRoute = require("./routes/clinicRoute.js");
 
 const app = express();
-const prisma = new PrismaClient();
+
 app.use(express.json());
-
-
 
 app.use(
   cors({
-    origin: "",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
