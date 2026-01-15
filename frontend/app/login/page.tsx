@@ -8,7 +8,7 @@ import { FaLock } from "react-icons/fa";
 const loginPage = () => {
   return (
     <div className="flex justify-center bg-background-gray items-center h-screen">
-      <div className="flex md:w-[80%] w-[90%] rounded-xl overflow-hidden items-stretch min-h-[500px]">
+      <div className="flex md:w-[80%] w-[90%] rounded-xl overflow-hidden items-stretch min-h-125">
         <div className="right-div hidden md:flex md:w-1/2 relative">
           <Image fill className="object-cover" src={hero} alt="" />
           <div className="absolute bottom-10 left-5 flex flex-col p-6 gap-2 justify-center items-start  w-[90%] bg-cover rounded-[20px] bg-white/25 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-md border border-white/18">
@@ -22,7 +22,7 @@ const loginPage = () => {
           </div>
         </div>
         <div className="left-div md:w-1/2 w-full bg-background flex flex-col gap-4 p-6">
-          <div className="flex flex-row gap-2  items-center justify-center">
+          <div className="flex flex-row gap-2 items-start md:items-center">
             <div className="text-2xl text-primary">
               <FaPaw />
             </div>
