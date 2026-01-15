@@ -5,13 +5,13 @@
 4 silly config load:file:h:\WebDev\Mune\backend\.npmrc
 5 silly config load:file:C:\Users\user\.npmrc
 6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
-7 verbose title npm view nodemon description dist-tags.latest homepage version time
-8 verbose argv "view" "--json" "--" "nodemon" "description" "dist-tags.latest" "homepage" "version" "time"
-9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-12T05_22_50_857Z-
-10 verbose logfile H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-12T05_22_50_857Z-debug-0.log
+7 verbose title npm ls
+8 verbose argv "ls" "--depth" "0" "--package-lock-only" "--omit" "dev" "--json"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-15T08_24_13_025Z-
+10 verbose logfile H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-15T08_24_13_025Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
-12 silly logfile done cleaning log files
-13 http fetch GET 200 https://registry.npmjs.org/nodemon 1604ms (cache revalidated)
+12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+13 silly logfile done cleaning log files
 14 verbose cwd h:\WebDev\Mune\backend
 15 verbose os Windows_NT 10.0.19045
 16 verbose node v22.17.0

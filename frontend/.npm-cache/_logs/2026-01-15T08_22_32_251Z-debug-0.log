@@ -7,13 +7,14 @@
 6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
 7 verbose title npm ls
 8 verbose argv "ls" "--depth" "0" "--package-lock-only" "--omit" "dev" "--json"
-9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-12T04_33_51_378Z-
-10 verbose logfile H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-12T04_33_51_378Z-debug-0.log
-11 silly logfile done cleaning log files
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-15T08_22_32_251Z-
+10 verbose logfile H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-15T08_22_32_251Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
 12 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
-13 verbose cwd h:\WebDev\Mune\frontend
-14 verbose os Windows_NT 10.0.19045
-15 verbose node v22.17.0
-16 verbose npm  v11.6.4
-17 verbose exit 0
-18 info ok
+13 silly logfile done cleaning log files
+14 verbose cwd h:\WebDev\Mune\frontend
+15 verbose os Windows_NT 10.0.19045
+16 verbose node v22.17.0
+17 verbose npm  v11.6.4
+18 verbose exit 0
+19 info ok

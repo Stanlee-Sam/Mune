@@ -1,0 +1,19 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.4
+2 info using node@v22.17.0
+3 silly config load:file:C:\Users\user\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:H:\WebDev\Mune\frontend\.npmrc
+5 silly config load:file:C:\Users\user\.npmrc
+6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm cache clean force
+8 verbose argv "cache" "clean" "force"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-15T08_17_04_048Z-
+10 verbose logfile H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-15T08_17_04_048Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 warn cache Not Found: force
+13 verbose cwd H:\WebDev\Mune\frontend
+14 verbose os Windows_NT 10.0.19045
+15 verbose node v22.17.0
+16 verbose npm  v11.6.4
+17 verbose exit 0
+18 info ok
