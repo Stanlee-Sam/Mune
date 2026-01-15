@@ -21,8 +21,9 @@ const loginPage = () => {
             </p>
           </div>
         </div>
-        <div className="left-div md:w-1/2 w-full bg-background flex flex-col gap-4 p-6">
-          <div className="flex flex-row gap-2 items-start md:items-center">
+        <div className="left-div md:w-1/2 w-full bg-background flex flex-col items-center md:items-start gap-4 p-6">
+          <div
+           className="flex flex-row gap-2 items-start md:items-center">
             <div className="text-2xl text-primary">
               <FaPaw />
             </div>
