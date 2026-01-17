@@ -1,9 +1,3 @@
-import React from 'react'
-
-const mainpage = () => {
-  return (
-    <div>mainpage</div>
-  )
+export default function Home() {
+  return <main className=""></main>;
 }
-
-export default mainpage
