@@ -11,7 +11,7 @@ const Hero = () => {
             Keep Your Furry Friend{" "}
             <span className="text-primary">Healthy & Happy.</span>
           </h1>
-          <p className="text-gray-500 text-[12px] md:text-[18px] text-center md:text-left ">
+          <p className="text-gray-500 text-[12px] md:text-[18px] text-center md:text-left font-semibold">
             Kenya's first early-warning system for pet health. Detect issues
             before they become emergencies and connect with local vets
             instantly.
@@ -30,7 +30,7 @@ const Hero = () => {
         </div>
         <div className="md:w-1/2 w-full flex flex-row items-center justify-center md:justify-end">
           <div
-            className="relative md:w-[90%] w-full h-80 md:h-[450px] rounded-xl 
+            className="relative md:w-[90%] w-full h-80 md:h-112.5 rounded-xl 
                   shadow-[0_0_60px_10px_rgba(34,197,94,0.35)]
 "
           >
