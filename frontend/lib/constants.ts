@@ -4,7 +4,9 @@ import { BiSolidBellRing } from "react-icons/bi";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosSunny } from "react-icons/io";
 import { GiHospitalCross } from "react-icons/gi";
-
+import { RiShieldCrossFill } from "react-icons/ri";
+import { FaExclamation } from "react-icons/fa";
+import { FaCarOn } from "react-icons/fa6";
 
 export const steps = [
   {
@@ -47,4 +49,22 @@ export const pros  = [
         description : 'Access a directory of KVB-registered vererinarians and 24/7 emergency clinics near you.'
     }
 
+]
+
+export const insights = [
+    {
+        icon : RiShieldCrossFill,
+        title : 'Recognize risky symptoms',
+        description : 'Identify potential health threats at the first sign of trouble, giving you a head start on treatment and care.'
+    }, {
+        icon : FaExclamation,
+        title : "Understand urgency levels",
+        description : "Know exactly when a symptom is mild or critical, so you can make informed decisions without panic."
+    },
+    {
+        icon : FaCarOn,
+        title : "Act promptly be seeking veterinary care when needed",
+        description : 'Connect instantly with professionals to ensure your pet receives the necessary medical attention right away.'
+        
+    }
 ]

@@ -3,8 +3,8 @@ import React from "react";
 
 const Steps = () => {
   return (
-    <div className="bg-background-gray w-full flex flex-col items-center justify-center h-[60vh] md:h-[50vh] pt-2">
-      <div className="w-[90%] flex flex-col gap-3 items-center justify-center">
+<div className="bg-background-gray w-full flex flex-col items-center justify-center py-16 md:py-24">
+      <div className="w-[90%] flex flex-col gap-10 md:gap-20 items-center justify-center">
         <div className = 
         "flex flex-col gap-2 items-center justify-center">
           <h3 className="md:text-[30px] text-[20px] text-center font-bold text-black">Simple steps to better pet health</h3>
