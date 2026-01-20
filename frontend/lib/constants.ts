@@ -7,6 +7,8 @@ import { GiHospitalCross } from "react-icons/gi";
 import { RiShieldCrossFill } from "react-icons/ri";
 import { FaExclamation } from "react-icons/fa";
 import { FaCarOn } from "react-icons/fa6";
+import Kevin from '../public/assets/kevin.png';
+import Wanjiku from '../public/assets/wanjiku.png';
 
 export const steps = [
   {
@@ -66,5 +68,37 @@ export const insights = [
         title : "Act promptly be seeking veterinary care when needed",
         description : 'Connect instantly with professionals to ensure your pet receives the necessary medical attention right away.'
         
+    }
+]
+
+export const testimonials = [
+    {
+        img : Wanjiku ,
+        name : "Wanjiku M.",
+        location : "Nairobi, Kilimani",
+        rating : 5,
+        message : "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!."
+    },
+    {
+        img : Kevin,
+        name : "Kevin O.",
+        location : "Mombasa, Nyali",
+        rating : 5,
+        message : "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!."
+    }
+]
+
+export const footerLinks = [
+    {
+        title : "Product",
+        links : ["Features", "Pricing", "For Vets"]
+    },
+    {
+        title : "Company",
+        links : ["About Us", "Careers", "Contact"]
+    },
+    {
+        title : "Legal",
+        links : ["Privacy Policy", "Terms of Use"]
     }
 ]

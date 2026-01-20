@@ -14,7 +14,7 @@ const Wellness = () => {
             long, happy life with your pet.
           </p>
         </div>
-<ul className="flex flex-col md:flex-row items-stretch justify-evenly gap-4">
+        <ul className="flex flex-col md:flex-row items-stretch justify-evenly gap-4">
           {insights.map((insight) => (
             <li
               key={insight.title}

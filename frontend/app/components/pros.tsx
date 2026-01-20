@@ -6,7 +6,7 @@ import { pros } from "@/lib/constants";
 
 const Pros = () => {
   return (
-    <div className="bg-secondary-foreground w-full flex flex-col items-center justify-center min-h-screen pt-5">
+    <div className="bg-secondary-foreground w-full flex flex-col items-center justify-center py-20 md:py-28">
       <div className="w-[90%] flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="md:w-1/2 w-full flex flex-col md:gap-6 gap-3  items-start">
           <p className="text-primary tracking-wider bg-[#185318] py-2 px-3 rounded-[20px] text-[12px]">
