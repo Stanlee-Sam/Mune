@@ -27,7 +27,10 @@ const Footer = () => {
               </h2>
               <ul className="flex flex-col gap-2 text-[13px] md:text-[17px]">
                 {footerLink.links.map((link) => (
-                  <li className="cursor-pointer text-black hover:text-primary">
+                  <li
+                    key={link}
+                    className="cursor-pointer text-black hover:text-primary"
+                  >
                     {link}
                   </li>
                 ))}
