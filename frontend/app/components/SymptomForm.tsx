@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-
 const SYMPTOMS = [
   "Vomiting",
   "Diarrhea",
@@ -22,11 +21,11 @@ const SymptomsForm = () => {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
-   const toggleSymptom = (symptom: string) => {
+  const toggleSymptom = (symptom: string) => {
     setSymptoms((prev) =>
       prev.includes(symptom)
         ? prev.filter((s) => s !== symptom)
-        : [...prev, symptom]
+        : [...prev, symptom],
     );
   };
 
@@ -56,14 +55,12 @@ const SymptomsForm = () => {
 
       const data = await res.json();
       console.log("Evaluation result:", data);
-
     } catch (error) {
       console.error("Evaluation failed:", error);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="w-full p-6 bg-white rounded-xl">
@@ -74,17 +71,20 @@ const SymptomsForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6 w-full">
         {/* Symptoms */}
         <div>
-          <label className="mb-2 block text-black font-bold">Symptoms (select all that apply)</label>
+          <label className="mb-2 block text-black font-bold">
+            Symptoms (select all that apply)
+          </label>
           <div className="grid grid-cols-2 gap-3">
             {SYMPTOMS.map((symptom) => (
               <label
                 key={symptom}
                 className="flex items-center space-x-2 border rounded-md p-2 text-black"
               >
-                <input className = 'border rounded-lg p-2 cursor-pointer'
+                <input
+                  className="border bg-primary rounded-lg p-2 cursor-pointer focus:ring-blue-500"
                   type="checkbox"
                   checked={symptoms.includes(symptom)}
-                  onChange={(e) => toggleSymptom(e.target.value)}
+                  onChange={() => toggleSymptom(symptom)}
                 />
                 <span>{symptom}</span>
               </label>
@@ -95,7 +95,8 @@ const SymptomsForm = () => {
         {/* Pet Age */}
         <div className="flex flex-col gap-3">
           <label className="text-black font-bold">Pet age (months)</label>
-          <input className = 'border rounded-lg p-2 '
+          <input
+            className="border rounded-lg p-2 "
             type="number"
             placeholder="e.g. 4"
             value={petAgeMonths}
@@ -105,19 +106,25 @@ const SymptomsForm = () => {
 
         {/* Duration */}
         <div className="flex flex-col gap-3">
-          <label className="text-black font-bold">How long have the symptoms lasted? (hours)</label>
-          <input className = 'border rounded-lg p-2 '
+          <label className="text-black font-bold">
+            How long have the symptoms lasted? (hours)
+          </label>
+          <input
+            className="border rounded-lg p-2 "
             type="number"
             placeholder="e.g. 24"
             value={durationHrs}
-            onChange={(e : any) => setDurationHrs(Number(e.target.value))}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setDurationHrs(Number(e.target.value))
+            }
           />
         </div>
 
         {/* Location */}
-        <div className = "flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <label className="text-black font-bold">Location (optional)</label>
-          <input className = 'border rounded-lg p-2 '
+          <input
+            className="border rounded-lg p-2 "
             placeholder="e.g. Nairobi"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -133,12 +140,16 @@ const SymptomsForm = () => {
           diagnosis.
         </p>
 
-        <button className = 'border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] ' type="submit" disabled={loading}>
+        <button
+          className="border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] "
+          type="submit"
+          disabled={loading}
+        >
           {loading ? "Checking..." : "Analyze Symptoms"}
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default SymptomsForm
+export default SymptomsForm;
