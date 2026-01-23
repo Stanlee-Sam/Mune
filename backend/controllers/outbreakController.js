@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -110,9 +112,28 @@ const deleteOutbreak = async (req, res) => {
   }
 };
 
+const fetchSpecificOutbreak = async (req, res) => {
+  try {
+    const outbreakId = req.params.id;
+    const outbreak = await prisma.outbreakReport.findUnique({
+      where: { id: outbreakId },
+    });
+    if (!outbreak) {
+      return res.status(404).json({ message: "Outbreak not found" });
+    }
+    res.json({
+      outbreak
+    })
+  } catch (error) {
+    console.error("Error fetching outbreak:", error);
+    res.status(500).json({ message: "Failed to fetch outbreak" });
+  }
+}
+
 module.exports = {
   postOutbreak,
   fetchOutbreaks,
   updateOutbreak,
   deleteOutbreak,
+  fetchSpecificOutbreak
 };

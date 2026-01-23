@@ -3,6 +3,8 @@ import { CiEdit } from "react-icons/ci";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
+import { CgDetailsMore } from "react-icons/cg";
+import Link from "next/link";
 const alertsPage = () => {
   // const isActive = outbreak.status === "ACTIVE";
 
@@ -43,9 +45,9 @@ const alertsPage = () => {
                 </span>
               </div>
 
-              <p className="text-[18px] text-gray-600">
+              {/* <p className="text-[18px] text-gray-600">
                 {outbreak.description}
-              </p>
+              </p> */}
 
               <div className="flex flex-row gap-5 ">
                 <span className="flex flex-row gap-3 items-center justify-center">
@@ -65,6 +67,10 @@ const alertsPage = () => {
               </div>
               <div className="flex flex-col gap-3 w-full">
                 <div className="flex flex-row justify-evenly w-full">
+                  <Link href ={`alerts/${outbreak.id}`} className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-blue-400 hover:bg-blue-200 text-[25px] flex items-center gap-2 border-black">
+                    <CgDetailsMore className="md:hidden" />
+                    <span className="hidden md:inline text-[15px]">More Details</span>
+                  </Link>
                   <button className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-blue-400 hover:bg-blue-200 text-[25px] flex items-center gap-2 border-black">
                     <CiEdit className="md:hidden" />
                     <span className="hidden md:inline text-[15px]">Edit</span>

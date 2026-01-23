@@ -5,10 +5,10 @@
 4 silly config load:file:H:\WebDev\Mune\backend\.npmrc
 5 silly config load:file:C:\Users\user\.npmrc
 6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
-7 verbose title npm exec prisma db seed
-8 verbose argv "exec" "--" "prisma" "db" "seed"
-9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-12T05_23_43_362Z-
-10 verbose logfile H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-12T05_23_43_362Z-debug-0.log
+7 verbose title npm exec prisma migrate dev
+8 verbose argv "exec" "--" "prisma" "migrate" "dev"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-23T05_18_52_227Z-
+10 verbose logfile H:\WebDev\Mune\backend\.npm-cache\_logs\2026-01-23T05_18_52_227Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
 13 verbose cwd H:\WebDev\Mune\backend

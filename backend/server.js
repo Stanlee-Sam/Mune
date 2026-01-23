@@ -23,7 +23,7 @@ app.use("/", evaluateRoute);
 //users route
 app.use("/users", userRoute);
 //outbreak route
-app.use('/outbreak', outbreakRoute)
+app.use('/outbreaks', outbreakRoute)
 //clinic route
 app.use('/clinic', clinicRoute)
 
