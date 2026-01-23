@@ -9,6 +9,11 @@ import { FaExclamation } from "react-icons/fa";
 import { FaCarOn } from "react-icons/fa6";
 import Kevin from '../public/assets/kevin.png';
 import Wanjiku from '../public/assets/wanjiku.png';
+import { FaHouse } from "react-icons/fa6";
+import { FaHandsWash } from "react-icons/fa";
+import { AiFillStop } from "react-icons/ai";
+import { FaPhoneAlt } from "react-icons/fa";
+
 
 export const steps = [
   {
@@ -100,5 +105,28 @@ export const footerLinks = [
     {
         title : "Legal",
         links : ["Privacy Policy", "Terms of Use"]
+    }
+]
+
+export const precautions = [
+    {
+        icon : FaHouse,
+        title : 'Keep cats Indoors',
+        description : 'Limit outdoor exposure until outbreak is contained to prevent direct contact.'
+    }, {
+        icon : FaHandsWash ,
+        title : "Practice Hygiene",
+        description : "Wash hands thouroughly after handling other animals or visiting public pet areas."
+    },
+    {
+        icon : AiFillStop,
+        title : "Avoid Contact",
+        description : 'Keep sick cats isolated from healthy ones immediately if signs appear.'
+        
+    },
+    {
+        icon : FaPhoneAlt,
+        title : 'Contact Vet',
+        description : 'Call immediately if symptoms appear. Early treatment significantly improves outcomes.'
     }
 ]
