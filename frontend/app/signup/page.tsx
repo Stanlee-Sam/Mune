@@ -1,12 +1,62 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import hero from "../../public/assets/hero.png";
 import { FaPaw } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { FaLock } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
+import api from "@/lib/axios";
+import { toast } from "sonner";
+import axios from "axios";
+import { ClipLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-const signupPage = () => {
+const SignupPage = () => {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !password || !name) {
+      toast.error("All fields are required!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await api.post(`/users/register`, {
+        name,
+        email: email.trim(),
+        password,
+      });
+      toast.success("Registration successful!");
+      router.push("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error?.response?.data.message || "Failed to register");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex justify-center bg-background-gray items-center h-screen">
       <div className="flex md:w-[80%] w-[90%] rounded-xl overflow-hidden items-stretch min-h-125">
@@ -38,20 +88,27 @@ const signupPage = () => {
               system.
             </p>
           </div>
-          <form action="" className="w-[80%] flex flex-col gap-3">
-             <div className="flex flex-col gap-2 w-full relative">
-              <label htmlFor="password" className="text-[12px] font-bold">
+          <form
+            onSubmit={handleSignUp}
+            action=""
+            className="w-[80%] flex flex-col gap-3"
+          >
+            <div className="flex flex-col gap-2 w-full relative">
+              <label htmlFor="name" className="text-[12px] font-bold">
                 Full Name
               </label>
               <input
+                value={name}
+                onChange={handleNameChange}
                 type="text"
                 name="name"
                 id="name"
+                required
                 placeholder="John Doe"
                 className="border p-2 rounded-md flex flex-row items-center w-full text-[15px] pl-7"
               />
               <div className="absolute bottom-2.5 left-1 text-[18px] text-gray-300">
-<IoPerson />
+                <IoPerson />
               </div>
             </div>
             <div className="flex flex-col gap-2 w-full relative">
@@ -59,6 +116,9 @@ const signupPage = () => {
                 Email Address
               </label>
               <input
+                onChange={handleEmailChange}
+                required
+                value={email}
                 type="email"
                 name="email"
                 id="email"
@@ -69,12 +129,15 @@ const signupPage = () => {
                 <IoIosMail />
               </div>
             </div>
-           
+
             <div className="flex flex-col gap-2 w-full relative">
               <label htmlFor="password" className="text-[12px] font-bold">
                 Password
               </label>
               <input
+                value={password}
+                onChange={handlePasswordChange}
+                required
                 type="password"
                 name="password"
                 id="password"
@@ -86,16 +149,21 @@ const signupPage = () => {
               </div>
             </div>
             <button
+              disabled={loading}
               type="submit"
               className="bg-primary text-black w-full p-2 font-bold cursor-pointer rounded-lg hover:bg-secondary-foreground hover:text-white"
             >
-              Create Account
+              {loading ? (
+                <ClipLoader color="white" size={15} />
+              ) : (
+                <> Create Account</>
+              )}
             </button>
           </form>
           <div>
             <p className="text-[13px]">
               Already have an account?{" "}
-              <span className="text-primary font-bold">Sign In</span>
+              <Link href='/login' className="text-primary font-bold">Sign In</Link>
             </p>
           </div>
         </div>
@@ -104,4 +172,4 @@ const signupPage = () => {
   );
 };
 
-export default signupPage;
+export default SignupPage;

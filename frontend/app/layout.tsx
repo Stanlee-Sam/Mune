@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import { Toaster } from "@/components/ui/sonner";
 
 const manropeSans = Manrope({
   subsets: ["latin"],
@@ -25,7 +26,8 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        </body>
+        <Toaster position="top-center" richColors closeButton />
+      </body>
     </html>
   );
 }
