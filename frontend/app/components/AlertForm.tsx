@@ -1,6 +1,10 @@
 "use client";
 
+import api from "@/lib/axios";
+import axios from "axios";
 import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 // import { OutbreakStatus } from "@/types/outbreak";
 
 const AlertForm = () => {
@@ -11,6 +15,7 @@ const AlertForm = () => {
     startDate: "",
     status: "ACTIVE",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -20,14 +25,46 @@ const AlertForm = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // MOCK submit for now
-    console.log({
-      ...form,
-      reportedBy: "vet-user-id", // backend expects this
-    });
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You are not logged in");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await api.post(
+        `/outbreaks`,
+        {
+          ...form,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      toast.success("Outbreak alert posted successfully");
+      setForm({
+        diseaseName: "",
+        description: "",
+        location: "",
+        startDate: "",
+        status: "ACTIVE",
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message || "Failed to post alert");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,6 +77,7 @@ const AlertForm = () => {
       </h2>
 
       <input
+        required
         name="diseaseName"
         placeholder="Disease name"
         className="border p-2 rounded"
@@ -56,6 +94,7 @@ const AlertForm = () => {
       />
 
       <input
+        required
         name="location"
         placeholder="Location"
         className="border p-2 rounded"
@@ -64,6 +103,7 @@ const AlertForm = () => {
       />
 
       <input
+        required
         type="date"
         name="startDate"
         className="border p-2 rounded"
@@ -72,6 +112,7 @@ const AlertForm = () => {
       />
 
       <select
+        required
         name="status"
         className="border p-2 rounded"
         value={form.status}
@@ -81,8 +122,11 @@ const AlertForm = () => {
         <option value="RESOLVED">RESOLVED</option>
       </select>
 
-      <button className="border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] ">
-        Post Alert
+      <button
+        disabled={loading}
+        className="border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] "
+      >
+        {loading ? <ClipLoader color="white" size={15} /> : <> Post Alert</>}
       </button>
     </form>
   );

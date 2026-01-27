@@ -11,9 +11,10 @@ const postOutbreak = async (req, res) => {
       location,
       startDate,
       status,
-      reportedBy,
     } = req.body;
-    if (!diseaseName || !location || !startDate || !status || !reportedBy) {
+    const reportedBy = req.user.userId;
+
+    if (!diseaseName || !location || !startDate || !status) {
       return res.status(400).json({ message: "All fields are required!" });
     }
 
@@ -42,7 +43,9 @@ const postOutbreak = async (req, res) => {
 
 const fetchOutbreaks = async (req, res) => {
   try {
-    const outbreaks = await prisma.outbreakReport.findMany();
+    const outbreaks = await prisma.outbreakReport.findMany({
+      include: { reportedBy: { select: { id: true, name: true } } },
+    });
     res.json({ outbreaks });
   } catch (error) {
     console.error("Error fetching outbreaks:", error);
@@ -53,13 +56,13 @@ const fetchOutbreaks = async (req, res) => {
 const updateOutbreak = async (req, res) => {
   try {
     const outbreakId = req.params.id;
+    const reportedBy = req.user.userId;
     const {
       diseaseName,
       description,
       location,
       startDate,
       status,
-      reportedBy,
     } = req.body;
 
     const existingOutbreak = await prisma.outbreakReport.findUnique({
@@ -70,7 +73,7 @@ const updateOutbreak = async (req, res) => {
       return res.status(404).json({ message: "Outbreak report not found" });
     }
 
-    if (!diseaseName || !location || !startDate || !status || !reportedBy) {
+    if (!diseaseName || !location || !startDate || !status) {
       return res.status(400).json({ message: "All fields are required!" });
     }
 
@@ -81,9 +84,9 @@ const updateOutbreak = async (req, res) => {
         description,
         location,
         startDate: new Date(startDate),
-        status,
-        reportedBy: { connect: { id: reportedBy } },
+        status
       },
+      include: { reportedBy: { select: { id: true, name: true } } },
     });
     res.json({ updatedOutbreak });
   } catch (error) {
@@ -115,8 +118,10 @@ const deleteOutbreak = async (req, res) => {
 const fetchSpecificOutbreak = async (req, res) => {
   try {
     const outbreakId = req.params.id;
+    const reportedBy = req.user.userId;
     const outbreak = await prisma.outbreakReport.findUnique({
       where: { id: outbreakId },
+      include: { reportedBy: { select: { id: true, name: true } } },
     });
     if (!outbreak) {
       return res.status(404).json({ message: "Outbreak not found" });
