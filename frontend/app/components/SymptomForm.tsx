@@ -1,6 +1,8 @@
-"use client";
 
+import { SymptomPayload } from "@/types/types";
 import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const SYMPTOMS = [
   "Vomiting",
@@ -14,12 +16,16 @@ const SYMPTOMS = [
   "Straining to urinate",
 ];
 
-const SymptomsForm = () => {
+type SymptomsFormProps = {
+  onEvaluate: (payload: SymptomPayload) => void;
+  loading: boolean;
+};
+
+const SymptomsForm = ({onEvaluate, loading }: SymptomsFormProps) => {
   const [symptoms, setSymptoms] = useState<string[]>([]);
   const [petAgeMonths, setPetAgeMonths] = useState<number | "">("");
   const [durationHrs, setDurationHrs] = useState<number | "">("");
   const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const toggleSymptom = (symptom: string) => {
     setSymptoms((prev) =>
@@ -31,35 +37,19 @@ const SymptomsForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+   
 
     if (symptoms.length === 0 || petAgeMonths === "" || durationHrs === "") {
-      alert("Please fill in all required fields.");
+       toast.error("Please fill in all required fields.");
       return;
     }
 
-    setLoading(true);
-
-    try {
-      const res = await fetch("http://localhost:5000/evaluate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          symptoms,
-          petAgeMonths,
-          durationHrs,
-          location: location || null,
-        }),
-      });
-
-      const data = await res.json();
-      console.log("Evaluation result:", data);
-    } catch (error) {
-      console.error("Evaluation failed:", error);
-    } finally {
-      setLoading(false);
-    }
+    onEvaluate({
+      symptoms,
+      petAgeMonths,
+      durationHrs,
+      location,
+    });
   };
 
   return (
@@ -145,7 +135,7 @@ const SymptomsForm = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Checking..." : "Analyze Symptoms"}
+          {loading ?<ClipLoader color="white" size={15} /> : "Analyze Symptoms"}
         </button>
       </form>
     </div>
