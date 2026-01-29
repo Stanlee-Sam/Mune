@@ -16,6 +16,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
 
+
 export const steps = [
   {
     id: 1,

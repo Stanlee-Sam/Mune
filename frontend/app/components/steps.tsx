@@ -5,9 +5,9 @@ const Steps = () => {
   return (
 <div className="bg-background-gray w-full flex flex-col items-center justify-center py-16 md:py-24">
       <div className="w-[90%] flex flex-col gap-10 md:gap-20 items-center justify-center">
-        <div className = 
-        "flex flex-col gap-2 items-center justify-center">
-          <h3 className="md:text-[30px] text-[20px] text-center font-bold text-black">Simple steps to better pet health</h3>
+        <div className = "flex flex-col gap-2 items-center justify-center">
+          <h3 className="md:text-[30px] text-[20px] text-center font-bold text-black">
+            Simple steps to better pet health</h3>
           <p className="text-gray-500 font-semibold text-[12px] md:text-[18px] text-center">
             We make it easy to monitor your pet's well being in just a few
             clicks, tailored for the busy lifestyle.
