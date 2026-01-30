@@ -83,6 +83,7 @@ model VetClinic {
   name              String
   location          String
   phone             String
+  imageUrl           String? 
   emergencyAvailable Boolean  @default(false)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

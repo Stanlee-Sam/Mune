@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const addClinic = async (req, res) => {
     try {
         const {name, location, phone, emergencyAvailable} = req.body;
-    if(!name || !location || !phone || emergencyAvailable === undefined){
+    if(!name || !location || !phone || emergencyAvailable === undefined ||!req.file){
         return res.status(400).json({ message: "All fields are required" });
     }
         const newClinic = await prisma.vetClinic.create({
@@ -15,6 +15,7 @@ const addClinic = async (req, res) => {
                 location,
                 phone,
                 emergencyAvailable,
+                imageUrl : req.file.path,
             },
         });
         res.json({ newClinic });
