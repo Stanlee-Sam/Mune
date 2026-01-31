@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cloudinary = require('../services/cloudinary')
 
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -6,16 +7,29 @@ const prisma = new PrismaClient();
 const addClinic = async (req, res) => {
     try {
         const {name, location, phone, emergencyAvailable} = req.body;
-    if(!name || !location || !phone || emergencyAvailable === undefined ||!req.file){
+
+        const emergencyAvailableBool = emergencyAvailable === 'true' || emergencyAvailable === true;
+    if(!name || !location || !phone || emergencyAvailable === undefined){
         return res.status(400).json({ message: "All fields are required" });
     }
+
+    let imageUrl = null;
+
+    if (req.file) {
+      // Upload to Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "vet-clinics",
+      });
+      imageUrl = result.secure_url;
+    }
+
         const newClinic = await prisma.vetClinic.create({
             data: {
                 name,
                 location,
                 phone,
-                emergencyAvailable,
-                imageUrl : req.file.path,
+                emergencyAvailable : emergencyAvailableBool,
+                imageUrl,
             },
         });
         res.json({ newClinic });

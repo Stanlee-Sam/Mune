@@ -10,6 +10,7 @@ import api from "@/lib/axios";
 import axios from "axios";
 import { toast } from "sonner";
 import { HashLoader } from "react-spinners";
+import { getUserFromToken } from "@/utils/auth";
 
 interface Clinic {
   id: string;
@@ -27,6 +28,35 @@ interface clinicResponse {
 const Vets = () => {
   const [clinics, setClinics] = useState<Clinic[]>([]);
   const [loading, setLoading] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [image, setImage] = useState<File | null>(null);
+  const [emergencyAvailable, setEmergencyAvailable] = useState<boolean>(false);
+  const user = getUserFromToken();
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const handleEmergencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmergencyAvailable(e.target.checked);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
 
   useEffect(() => {
     const fetchClinics = async () => {
@@ -49,6 +79,46 @@ const Vets = () => {
     fetchClinics();
   }, []);
 
+  const toggleAdd = () => {
+    setOpenAdd(!openAdd);
+  };
+
+  const AddClinic = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Invalid token. Please login first.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("location", location);
+    formData.append("phone", phone);
+    formData.append("emergencyAvailable", String(emergencyAvailable));
+    if (image) {
+      formData.append("image", image);
+    }
+    try {
+      const res = await api.post(`/clinic`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Clinic added successfully");
+      setClinics((prev) => [...prev, res.data.newClinic]);
+      setOpenAdd(false);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message || "Failed to add clinic");
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  };
+
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center py-16 md:py-24">
       <div className="w-[90%] flex flex-col gap-10">
@@ -63,13 +133,101 @@ const Vets = () => {
                 Kenya. Your pet's health is our priority.
               </p>
             </div>
-            <button className="flex flex-row gap-2 border bg-primary items-center justify-center py-2 px-2 md:py-2 md:px-6 rounded-lg text-black">
-              <span>
-                <FaCirclePlus />
-              </span>
-              <p className="font-bold "> Add Clinic</p>
-            </button>
+            {user?.role === "VET" && (
+              <button
+                onClick={toggleAdd}
+                className="flex flex-row gap-2 border bg-primary hover:bg-[#1e293b] hover:text-white cursor-pointer items-center justify-center py-2 px-2 md:py-2 md:px-6 rounded-lg text-black"
+              >
+                <span>
+                  <FaCirclePlus />
+                </span>
+                <p className="font-bold "> Add Clinic</p>
+              </button>
+            )}
           </div>
+          {openAdd && (
+            <form
+              onSubmit={AddClinic}
+              className="bg-white w-full rounded-xl p-6 flex flex-col gap-4"
+            >
+              <h3 className="text-xl font-bold text-black">Add Clinic</h3>
+
+              {/* Clinic name */}
+              <input
+                value={name}
+                onChange={handleNameChange}
+                name="name"
+                type="text"
+                placeholder="Clinic name"
+                required
+                className="border p-3 rounded-lg w-full"
+              />
+
+              {/* Location */}
+              <input
+                value={location}
+                onChange={handleLocationChange}
+                name="location"
+                type="text"
+                placeholder="Location"
+                required
+                className="border p-3 rounded-lg w-full"
+              />
+
+              {/* Phone */}
+              <input
+                value={phone}
+                onChange={handlePhoneChange}
+                name="phone"
+                type="text"
+                placeholder="Phone number"
+                required
+                className="border p-3 rounded-lg w-full"
+              />
+
+              {/* Emergency */}
+              <label className="flex items-center gap-2">
+                <input
+                  checked={emergencyAvailable}
+                  onChange={handleEmergencyChange}
+                  type="checkbox"
+                  name="emergencyAvailable"
+                  value="true"
+                  className="w-4 h-4"
+                />
+                <span className="text-sm font-medium">
+                  24/7 Emergency Available
+                </span>
+              </label>
+
+              {/* Image upload */}
+              <input
+                accept="image/*"
+                onChange={handleImageChange}
+                type="file"
+                name="image"
+                className="border p-2 rounded-lg w-full"
+              />
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="bg-primary text-black font-bold px-4 py-2 rounded-lg"
+                >
+                  Save Clinic
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setOpenAdd(false)}
+                  className="border px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
           <div className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full">
             <div className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]">
               <div className="w-full relative">
