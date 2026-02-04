@@ -1,106 +1,96 @@
-require('dotenv').config();
-const cloudinary = require('../services/cloudinary')
+require("dotenv").config();
+const cloudinary = require("../services/cloudinary");
 
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const addClinic = async (req, res) => {
-    try {
-        const {name, location, phone, emergencyAvailable} = req.body;
+  try {
+    const { name, location, phone, emergencyAvailable } = req.body;
 
-        const emergencyAvailableBool = emergencyAvailable === 'true' || emergencyAvailable === true;
-    if(!name || !location || !phone || emergencyAvailable === undefined){
-        return res.status(400).json({ message: "All fields are required" });
+    const emergencyAvailableBool =
+      emergencyAvailable === "true" || emergencyAvailable === true;
+    if (!name || !location || !phone || emergencyAvailable === undefined) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    let imageUrl = null;
-
-    if (req.file) {
-      // Upload to Cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "vet-clinics",
-      });
-      imageUrl = result.secure_url;
-    }
-
-        const newClinic = await prisma.vetClinic.create({
-            data: {
-                name,
-                location,
-                phone,
-                emergencyAvailable : emergencyAvailableBool,
-                imageUrl,
-            },
-        });
-        res.json({ newClinic });
-        
-    } catch (error) {
-        console.error("Error adding clinic:", error);
-        res.status(500).json({ message: "Failed to add clinic" });
-    }
+    const newClinic = await prisma.vetClinic.create({
+      data: {
+        name,
+        location,
+        phone,
+        emergencyAvailable: emergencyAvailableBool,
+        imageUrl : req.file.path,
+      },
+    });
+    res.json({ newClinic });
+  } catch (error) {
+    console.error("Error adding clinic:", error);
+    res.status(500).json({ message: "Failed to add clinic" });
+  }
 };
 
 const getClinics = async (req, res) => {
-    try {
-        const clinics = await prisma.vetClinic.findMany();
-        res.json({ clinics });
-    } catch (error) {
-        console.error("Error fetching clinics:", error);
-        res.status(500).json({ message: "Failed to fetch clinics" });
-    }
+  try {
+    const clinics = await prisma.vetClinic.findMany();
+    res.json({ clinics });
+  } catch (error) {
+    console.error("Error fetching clinics:", error);
+    res.status(500).json({ message: "Failed to fetch clinics" });
+  }
 };
 
-const updateClinic = async(req, res) => {
-    try {
-        const clinicId = req.params.id;
-        const {name, location, phone, emergencyAvailable} = req.body;
-        if(!name || !location || !phone || emergencyAvailable === undefined){
-            return res.status(400).json({ message: "All fields are required" });
-        }
-        const existingClinic = await prisma.vetClinic.findUnique({
-            where: { id: clinicId },
-        })
-        if(!existingClinic){
-            return res.status(404).json({ message: "Clinic not found" });
-        }
-        const updatedClinic = await prisma.vetClinic.update({
-            where: { id: clinicId },
-            data: {
-                name,
-                location,
-                phone,
-                emergencyAvailable,
-            },
-        });
-        res.json({ updatedClinic });
-    } catch (error) {
-        console.error("Error updating clinic:", error);
-        res.status(500).json({ message: "Failed to update clinic" });
+const updateClinic = async (req, res) => {
+  try {
+    const clinicId = req.params.id;
+    const { name, location, phone, emergencyAvailable } = req.body;
+    if (!name || !location || !phone || emergencyAvailable === undefined) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-}
+    const existingClinic = await prisma.vetClinic.findUnique({
+      where: { id: clinicId },
+    });
+    if (!existingClinic) {
+      return res.status(404).json({ message: "Clinic not found" });
+    }
+    const updatedClinic = await prisma.vetClinic.update({
+      where: { id: clinicId },
+      data: {
+        name,
+        location,
+        phone,
+        emergencyAvailable,
+      },
+    });
+    res.json({ updatedClinic });
+  } catch (error) {
+    console.error("Error updating clinic:", error);
+    res.status(500).json({ message: "Failed to update clinic" });
+  }
+};
 
-const deleteClinic = async(req, res) => {
-    try {
-        const clinicId = req.params.id;
-        const existingClinic = await prisma.vetClinic.findUnique({
-            where: { id: clinicId },
-        })
-        if(!existingClinic){
-            return res.status(404).json({ message: "Clinic not found" });
-        }
-        await prisma.vetClinic.delete({
-            where: { id: clinicId },
-        });
-        res.json({ message: "Clinic deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting clinic:", error);
-        res.status(500).json({ message: "Failed to delete clinic" });
+const deleteClinic = async (req, res) => {
+  try {
+    const clinicId = req.params.id;
+    const existingClinic = await prisma.vetClinic.findUnique({
+      where: { id: clinicId },
+    });
+    if (!existingClinic) {
+      return res.status(404).json({ message: "Clinic not found" });
     }
-}
+    await prisma.vetClinic.delete({
+      where: { id: clinicId },
+    });
+    res.json({ message: "Clinic deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting clinic:", error);
+    res.status(500).json({ message: "Failed to delete clinic" });
+  }
+};
 
 module.exports = {
-    addClinic,
-    getClinics,
-    updateClinic,
-    deleteClinic
-}
+  addClinic,
+  getClinics,
+  updateClinic,
+  deleteClinic,
+};

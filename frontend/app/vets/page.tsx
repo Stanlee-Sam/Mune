@@ -11,6 +11,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { HashLoader } from "react-spinners";
 import { getUserFromToken } from "@/utils/auth";
+import { useRouter } from "next/navigation";
 
 interface Clinic {
   id: string;
@@ -35,6 +36,7 @@ const Vets = () => {
   const [image, setImage] = useState<File | null>(null);
   const [emergencyAvailable, setEmergencyAvailable] = useState<boolean>(false);
   const user = getUserFromToken();
+  const router = useRouter();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -89,6 +91,7 @@ const Vets = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Invalid token. Please login first.");
+      router.push('/login')
       return;
     }
 
@@ -104,12 +107,17 @@ const Vets = () => {
       const res = await api.post(`/clinic`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
         },
       });
       toast.success("Clinic added successfully");
       setClinics((prev) => [...prev, res.data.newClinic]);
       setOpenAdd(false);
+      setName("");
+      setLocation("");
+      setPhone("");
+      setEmergencyAvailable(false);
+      setImage(null);
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "Failed to add clinic");
@@ -206,7 +214,7 @@ const Vets = () => {
                 onChange={handleImageChange}
                 type="file"
                 name="image"
-                className="border p-2 rounded-lg w-full"
+                className="border p-2 rounded-lg w-ful text-white cursor-pointer"
               />
 
               {/* Buttons */}

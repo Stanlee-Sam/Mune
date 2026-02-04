@@ -7,7 +7,8 @@
 6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
 7 verbose title npm run dev
 8 verbose argv "run" "dev"
-9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-26T04_15_25_913Z-
-10 verbose logfile H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-01-26T04_15_25_913Z-debug-0.log
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-02-04T04_25_45_244Z-
+10 verbose logfile H:\WebDev\Mune\frontend\.npm-cache\_logs\2026-02-04T04_25_45_244Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
+13 http fetch GET 200 https://registry.npmjs.org/npm 853ms
