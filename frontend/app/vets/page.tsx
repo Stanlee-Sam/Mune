@@ -214,7 +214,7 @@ const Vets = () => {
                 onChange={handleImageChange}
                 type="file"
                 name="image"
-                className="border p-2 rounded-lg w-ful text-white cursor-pointer"
+                className="border p-2 rounded-lg w-full text-white cursor-pointer"
               />
 
               {/* Buttons */}
