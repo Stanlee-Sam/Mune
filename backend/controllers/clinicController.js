@@ -20,7 +20,7 @@ const addClinic = async (req, res) => {
         location,
         phone,
         emergencyAvailable: emergencyAvailableBool,
-        imageUrl : req.file.path,
+        imageUrl: req.file.path,
       },
     });
     res.json({ newClinic });
@@ -44,6 +44,8 @@ const updateClinic = async (req, res) => {
   try {
     const clinicId = req.params.id;
     const { name, location, phone, emergencyAvailable } = req.body;
+    const emergencyAvailableBool =
+      emergencyAvailable === "true" || emergencyAvailable === true;
     if (!name || !location || !phone || emergencyAvailable === undefined) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -53,13 +55,26 @@ const updateClinic = async (req, res) => {
     if (!existingClinic) {
       return res.status(404).json({ message: "Clinic not found" });
     }
+
+    
+    let imageUrl = existingClinic.imageUrl;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "vet-clinics",
+      });
+      imageUrl = result.secure_url;
+    } else {
+      imageUrl = existingClinic.imageUrl;
+    }
+
     const updatedClinic = await prisma.vetClinic.update({
       where: { id: clinicId },
       data: {
         name,
         location,
         phone,
-        emergencyAvailable,
+        emergencyAvailable : emergencyAvailableBool,
+        imageUrl,
       },
     });
     res.json({ updatedClinic });

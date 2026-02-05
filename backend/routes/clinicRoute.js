@@ -11,7 +11,7 @@ const upload = require("../middleware/multerMiddleware.js");
 
 router.post("/", authMiddleware("VET"), upload.single("image"), addClinic);
 router.get("/", getClinics);
-router.put("/:id", authMiddleware("VET"), updateClinic);
+router.put("/:id", authMiddleware("VET"), upload.single("image"), updateClinic);
 router.delete("/:id", authMiddleware("VET"), deleteClinic);
 
 module.exports = router;

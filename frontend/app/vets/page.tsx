@@ -9,7 +9,7 @@ import { IoMdSearch } from "react-icons/io";
 import api from "@/lib/axios";
 import axios from "axios";
 import { toast } from "sonner";
-import { HashLoader } from "react-spinners";
+import { ClipLoader, HashLoader } from "react-spinners";
 import { getUserFromToken } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 
@@ -26,6 +26,10 @@ interface clinicResponse {
   clinics: Clinic[];
 }
 
+interface updateClinicResponse {
+  updatedClinic: Clinic;
+}
+
 const Vets = () => {
   const [clinics, setClinics] = useState<Clinic[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,28 +39,60 @@ const Vets = () => {
   const [phone, setPhone] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
   const [emergencyAvailable, setEmergencyAvailable] = useState<boolean>(false);
+  // Edit
+  const [editClinicId, setEditClinicId] = useState<string>("");
+  const [editName, setEditName] = useState<string>("");
+  const [editLocation, setEditLocation] = useState<string>("");
+  const [editPhone, setEditPhone] = useState<string>("");
+  const [editImage, setEditImage] = useState<File | null>(null);
+  const [editImagePreview, setEditImagePreview] = useState<string>("");
+  const [editEmergencyAvailable, setEditEmergencyAvailable] =
+    useState<boolean>(false);
+
   const user = getUserFromToken();
   const router = useRouter();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-
   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocation(e.target.value);
   };
-
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
   };
-
   const handleEmergencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmergencyAvailable(e.target.checked);
   };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
+    }
+  };
+
+  //edit
+  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditName(e.target.value);
+  };
+  const handleEditLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditLocation(e.target.value);
+  };
+  const handleEditPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditPhone(e.target.value);
+  };
+  const handleEditEmergencyChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setEditEmergencyAvailable(e.target.checked);
+  };
+
+  const handleEditImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setEditImage(file);
+
+      // Preview
+      setEditImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -91,9 +127,10 @@ const Vets = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Invalid token. Please login first.");
-      router.push('/login')
+      router.push("/login");
       return;
     }
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -117,14 +154,112 @@ const Vets = () => {
       setPhone("");
       setEmergencyAvailable(false);
       setImage(null);
-
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "Failed to add clinic");
       } else {
         toast.error("Something went wrong");
       }
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const updateClinic = async (id: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Invalid token. Please login first");
+      router.push("/login");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("name", editName);
+      formData.append("location", editLocation);
+      formData.append("phone", editPhone);
+      formData.append("emergencyAvailable", String(editEmergencyAvailable));
+
+      // Only append if a new file is selected
+      if (editImage) {
+        formData.append("image", editImage);
+      }
+      const response = await api.put<updateClinicResponse>(
+        `/clinic/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setClinics((prev) =>
+        prev.map((c) => (c.id === id ? response.data.updatedClinic : c)),
+      );
+      toast.success("Clinic updated successfully");
+      cancelEdit();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message || "Failed to update clinic");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteClinic = async (id: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Invalid token. Please login first");
+      router.push("/login");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await api.delete(`/clinic/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setClinics((prev) => prev.filter((c) => c.id !== id));
+      toast.success("Clinic deleted successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message || "Failed to delete clinic");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleEdit = (clinic: Clinic) => {
+    setEditClinicId(clinic.id);
+    setEditName(clinic.name);
+    setEditLocation(clinic.location);
+    setEditPhone(clinic.phone);
+    setEditEmergencyAvailable(clinic.emergencyAvailable);
+    setEditImage(null);
+    setEditImagePreview(clinic.imageUrl);
+  };
+
+  const cancelEdit = () => {
+    setEditClinicId("");
+    setEditName("");
+    setEditLocation("");
+    setEditPhone("");
+    setEditEmergencyAvailable(false);
+    setEditImage(null);
+    setEditImagePreview("");
   };
 
   return (
@@ -214,16 +349,21 @@ const Vets = () => {
                 onChange={handleImageChange}
                 type="file"
                 name="image"
-                className="border p-2 rounded-lg w-full text-white cursor-pointer"
+                className="border p-2 rounded-lg w-full text-black cursor-pointer"
               />
 
               {/* Buttons */}
               <div className="flex gap-3">
                 <button
                   type="submit"
+                  disabled={loading}
                   className="bg-primary text-black font-bold px-4 py-2 rounded-lg"
                 >
-                  Save Clinic
+                  {loading ? (
+                    <ClipLoader color="white" size={15} />
+                  ) : (
+                    "Save Clinic"
+                  )}
                 </button>
 
                 <button
@@ -282,53 +422,156 @@ const Vets = () => {
             <div className="grid md:grid-cols-3 gap-5 w-full">
               {clinics.map((clinic) => (
                 <div key={clinic.id} className="bg-white rounded-xl w-full">
-                  <div className="relative w-full h-60 md:h-72 rounded-t-xl overflow-hidden">
-                    <Image
-                      src={clinic.imageUrl || "/assets/vet.png"}
-                      alt={clinic.name}
-                      fill
-                      className="object-cover"
-                    />
+                  {editClinicId === clinic.id ? (
+                    <div className="bg-white w-full rounded-xl p-6 flex flex-col gap-4">
+                      <input
+                        value={editName}
+                        onChange={handleEditNameChange}
+                        name="name"
+                        type="text"
+                        placeholder="Clinic name"
+                        required
+                        className="border p-3 rounded-lg w-full"
+                      />
 
-                    <div className="flex flex-row gap-1 absolute top-2 right-2 z-10">
-                      <span className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white">
-                        <IoPencil />
-                      </span>
-                      <span className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white">
-                        <RiDeleteBin6Line />
-                      </span>
-                    </div>
-                    <p className="absolute bottom-2 left-2 z-10">
-                      {clinic.emergencyAvailable && (
-                        <span className="bg-primary text-black text-xs font-semibold px-3 py-1 rounded-full">
-                          24/7 Emergency
+                      {/* Location */}
+                      <input
+                        value={editLocation}
+                        onChange={handleEditLocationChange}
+                        name="location"
+                        type="text"
+                        placeholder="Location"
+                        required
+                        className="border p-3 rounded-lg w-full"
+                      />
+
+                      {/* Phone */}
+                      <input
+                        value={editPhone}
+                        onChange={handleEditPhoneChange}
+                        name="phone"
+                        type="text"
+                        placeholder="Phone number"
+                        required
+                        className="border p-3 rounded-lg w-full"
+                      />
+
+                      {/* Emergency */}
+                      <label className="flex items-center gap-2">
+                        <input
+                          checked={editEmergencyAvailable}
+                          onChange={handleEditEmergencyChange}
+                          type="checkbox"
+                          name="emergencyAvailable"
+                          value="true"
+                          className="w-4 h-4"
+                        />
+                        <span className="text-sm font-medium">
+                          24/7 Emergency Available
                         </span>
-                      )}
-                    </p>
-                  </div>
+                      </label>
 
-                  <div className="flex flex-col gap-2 p-4">
-                    <h2 className="text-[15px] md:text-[18px] font-bold">
-                      {clinic.name}
-                    </h2>
-                    <div className="flex flex-row gap-2 items-center justify-start">
-                      <span className="text-[15px] md:text-[18px] text-gray-500">
-                        <FaLocationDot />
-                      </span>
-                      <p className="text-[15px] md:text-[18px] text-gray-500">
-                        {clinic.location}
-                      </p>
+                      {editImagePreview && (
+                        <div className="relative w-full h-40 rounded-lg overflow-hidden">
+                          <Image
+                            src={editImagePreview}
+                            alt="Preview"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+
+                      {/* Image upload */}
+                      <input
+                        accept="image/*"
+                        onChange={handleEditImageChange}
+                        type="file"
+                        name="image"
+                        className="border p-2 rounded-lg w-full text-black cursor-pointer"
+                      />
+
+                      {/* Buttons */}
+                      <div className="flex gap-3">
+                        <button
+                          disabled={loading}
+                          onClick={() => updateClinic(clinic.id)}
+                          className="bg-primary text-black font-bold px-4 py-2 rounded-lg"
+                        >
+                          {loading ? (
+                            <ClipLoader color="white" size={15} />
+                          ) : (
+                            "Save Clinic"
+                          )}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => cancelEdit()}
+                          className="border px-4 py-2 rounded-lg"
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex flex-row gap-2 items-center justify-start">
-                      <span className="text-[15px] md:text-[18px] text-gray-500">
-                        <FaPhoneAlt />
-                      </span>
-                      <p>{clinic.phone}</p>
-                    </div>
-                    <button className="bg-primary text-white border p-2 rounded-lg font-bold cursor-pointer w-full text-[15px] md:text-[18px]">
-                      Get Directions
-                    </button>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="relative w-full h-60 md:h-72 rounded-t-xl overflow-hidden">
+                        <Image
+                          src={clinic.imageUrl || "/assets/vet.png"}
+                          alt={clinic.name}
+                          fill
+                          className="object-cover"
+                        />
+
+                        <div className="flex flex-row gap-1 absolute top-2 right-2 z-10">
+                          <button
+                            onClick={() => toggleEdit(clinic)}
+                            className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
+                          >
+                            <IoPencil />
+                          </button>
+                          <button
+                            disabled={loading}
+                            onClick={() => deleteClinic(clinic.id)}
+                            className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
+                          >
+                            <RiDeleteBin6Line />
+                          </button>
+                        </div>
+                        <p className="absolute bottom-2 left-2 z-10">
+                          {clinic.emergencyAvailable && (
+                            <span className="bg-primary text-black text-xs font-semibold px-3 py-1 rounded-full">
+                              24/7 Emergency
+                            </span>
+                          )}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col gap-2 p-4">
+                        <h2 className="text-[15px] md:text-[18px] font-bold">
+                          {clinic.name}
+                        </h2>
+                        <div className="flex flex-row gap-2 items-center justify-start">
+                          <span className="text-[15px] md:text-[18px] text-gray-500">
+                            <FaLocationDot />
+                          </span>
+                          <p className="text-[15px] md:text-[18px] text-gray-500">
+                            {clinic.location}
+                          </p>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center justify-start">
+                          <span className="text-[15px] md:text-[18px] text-gray-500">
+                            <FaPhoneAlt />
+                          </span>
+                          <p>{clinic.phone}</p>
+                        </div>
+                        <button className="bg-primary text-white border p-2 rounded-lg font-bold cursor-pointer w-full text-[15px] md:text-[18px]">
+                          Get Directions
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
