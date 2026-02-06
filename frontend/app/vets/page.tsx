@@ -48,6 +48,9 @@ const Vets = () => {
   const [editImagePreview, setEditImagePreview] = useState<string>("");
   const [editEmergencyAvailable, setEditEmergencyAvailable] =
     useState<boolean>(false);
+  //search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [locationTerm, setLocationTerm] = useState("");
 
   const user = getUserFromToken();
   const router = useRouter();
@@ -262,6 +265,19 @@ const Vets = () => {
     setEditImagePreview("");
   };
 
+  const filteredClinics = clinics.filter((clinic) => {
+  const matchesSearch =
+    clinic.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    clinic.location.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const matchesLocation = clinic.location
+    .toLowerCase()
+    .includes(locationTerm.toLowerCase());
+
+  return matchesSearch && matchesLocation;
+});
+
+
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center py-16 md:py-24">
       <div className="w-[90%] flex flex-col gap-10">
@@ -381,6 +397,8 @@ const Vets = () => {
               <div className="w-full relative">
                 <input
                   type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by name, services or keyword.."
                   className="border p-2 rounded-lg bg-gray-100 w-full text-[15px] md:text-[18px] pl-7"
                 />
@@ -391,6 +409,8 @@ const Vets = () => {
               <div className="w-full relative">
                 <input
                   type="text"
+                  value={locationTerm}
+                  onChange={(e) => setLocationTerm(e.target.value)}
                   placeholder="Nairobi, Mombasa or near me.."
                   className="border p-2 rounded-lg bg-gray-100 w-full text-[15px] md:text-[18px] pl-7"
                 />
@@ -420,7 +440,7 @@ const Vets = () => {
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-5 w-full">
-              {clinics.map((clinic) => (
+              {filteredClinics.map((clinic) => (
                 <div key={clinic.id} className="bg-white rounded-xl w-full">
                   {editClinicId === clinic.id ? (
                     <div className="bg-white w-full rounded-xl p-6 flex flex-col gap-4">
