@@ -1,6 +1,7 @@
 import hero from "../../public/assets/hero.png";
 import Image from "next/image";
 import hero_svg from "../../public/assets/hero_svg.png";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -16,9 +17,9 @@ const Hero = () => {
             before they become emergencies and connect with local vets
             instantly.
           </p>
-          <button className="md:my-3 text-[12px] md:text-[18px] cursor-pointer border font-bold py-2 px-2 md:py-2 md:px-6 bg-primary rounded-lg text-black hover:bg-secondary-foreground">
+          <Link href={'/symptoms'} className="md:my-3 text-[12px] md:text-[18px] cursor-pointer border font-bold py-2 px-2 md:py-2 md:px-6 bg-primary rounded-lg text-black hover:bg-secondary-foreground hover:text-white">
             Get Started
-          </button>
+          </Link>
           <div className="flex flex-row items-center gap-3 w-full justify-center md:justify-start">
             <div className="md:w-20 w-15">
               <Image src={hero_svg} alt="" />

@@ -11,6 +11,9 @@ import { FaStarOfLife } from "react-icons/fa";
 import { FaCirclePlus } from "react-icons/fa6";
 import { FaMap } from "react-icons/fa";
 import { FaSquarePlus } from "react-icons/fa6";
+import { toast } from "sonner";
+import { HashLoader } from "react-spinners";
+import Link from "next/link";
 
 interface Outbreak {
   diseaseName: string;
@@ -41,9 +44,11 @@ const DetailedAlert = () => {
         setOutbreak(response.data.outbreak);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          alert(error.response?.data.message || "Failed to fetch outbreak");
+          toast.error(
+            error.response?.data.message || "Failed to fetch outbreak",
+          );
         } else {
-          alert("Something went wrong");
+          toast.error("Something went wrong");
         }
       }
     };
@@ -97,7 +102,9 @@ const DetailedAlert = () => {
                 </div>
               </div>
             ) : (
-              <p>Loading...</p>
+              <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
+                <HashLoader color="#13ec13" />
+              </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white rounded-xl p-4">
               {precautions.map((precaution) => (
@@ -125,12 +132,12 @@ const DetailedAlert = () => {
         <div className="md:w-[30%] flex flex-col gap-5">
           <div className="bg-white px-4 py-5 rounded-xl flex flex-col gap-4">
             <h3 className="text-[18px] text-black font-bold">Quick Actions</h3>
-            <button className="flex flex-row gap-4 w-full items-center justify-center text-md border rounded-lg p-3  font-bold cursor-pointer bg-[#1e293b] text-white hover:bg-[#425f8d]">
+            <Link href={'/vets'} className="flex flex-row gap-4 w-full items-center justify-center text-md border rounded-lg p-3  font-bold cursor-pointer bg-[#1e293b] text-white hover:bg-[#425f8d]">
               <span>
                 <FaStarOfLife />
               </span>
               Find Emergency Vet
-            </button>
+            </Link>
             <button className="flex flex-row gap-4 w-full items-center justify-center text-md border rounded-lg p-3  font-bold cursor-pointer text-gray-700 hover:bg-[#1e293b] hover:text-white">
               <span>
                 <FaCirclePlus />
@@ -167,26 +174,18 @@ const DetailedAlert = () => {
             </div>
           </div>
           <div className="relative w-full h-80 rounded-lg overflow-hidden">
-  <Image
-    fill
-    className="object-cover rounded-xl"
-    src={hero}
-    alt=""
-  />
+            <Image fill className="object-cover rounded-xl" src={hero} alt="" />
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
-  <div className="absolute bottom-5 left-5 flex flex-col p-6 gap-2 justify-center items-start w-[90%] z-10">
-    <h1 className="text-primary text-[15px] font-bold">
-      MUNE
-    </h1>
-    <p className="text-secondary text-2xl font-bold">
-      Get real-time alerts four your neighbourhood.
-    </p>
-  </div>
-</div>
-
+            <div className="absolute bottom-5 left-5 flex flex-col p-6 gap-2 justify-center items-start w-[90%] z-10">
+              <h1 className="text-primary text-[15px] font-bold">MUNE</h1>
+              <p className="text-secondary text-2xl font-bold">
+                Get real-time alerts four your neighbourhood.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

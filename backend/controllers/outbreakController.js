@@ -118,7 +118,7 @@ const deleteOutbreak = async (req, res) => {
 const fetchSpecificOutbreak = async (req, res) => {
   try {
     const outbreakId = req.params.id;
-    const reportedBy = req.user.userId;
+    // const reportedBy = req.user.userId;
     const outbreak = await prisma.outbreakReport.findUnique({
       where: { id: outbreakId },
       include: { reportedBy: { select: { id: true, name: true } } },

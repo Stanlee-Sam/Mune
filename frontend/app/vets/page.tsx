@@ -523,22 +523,24 @@ const Vets = () => {
                           fill
                           className="object-cover"
                         />
+                        {user?.role === "VET" && (
+                          <div className="flex flex-row gap-1 absolute top-2 right-2 z-10">
+                            <button
+                              onClick={() => toggleEdit(clinic)}
+                              className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
+                            >
+                              <IoPencil />
+                            </button>
+                            <button
+                              disabled={loading}
+                              onClick={() => deleteClinic(clinic.id)}
+                              className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
+                            >
+                              <RiDeleteBin6Line />
+                            </button>
+                          </div>
+                        )}
 
-                        <div className="flex flex-row gap-1 absolute top-2 right-2 z-10">
-                          <button
-                            onClick={() => toggleEdit(clinic)}
-                            className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
-                          >
-                            <IoPencil />
-                          </button>
-                          <button
-                            disabled={loading}
-                            onClick={() => deleteClinic(clinic.id)}
-                            className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
-                          >
-                            <RiDeleteBin6Line />
-                          </button>
-                        </div>
                         <p className="absolute bottom-2 left-2 z-10">
                           {clinic.emergencyAvailable && (
                             <span className="bg-primary text-black text-xs font-semibold px-3 py-1 rounded-full">
