@@ -12,6 +12,7 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "motion/react";
 
 const SignupPage = () => {
   const [name, setName] = useState<string>("");
@@ -62,7 +63,12 @@ const SignupPage = () => {
       <div className="flex md:w-[80%] w-[90%] rounded-xl overflow-hidden items-stretch min-h-125">
         <div className="right-div hidden md:flex md:w-1/2 relative">
           <Image fill className="object-cover" src={hero} alt="" />
-          <div className="absolute bottom-10 left-5 flex flex-col p-6 gap-2 justify-center items-start  w-[90%] bg-cover rounded-[20px] bg-white/25 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-md border border-white/18">
+          <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2 }}
+            className="absolute bottom-10 left-5 flex flex-col p-6 gap-2 justify-center items-start  w-[90%] bg-cover rounded-[20px] bg-white/25 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-md border border-white/18"
+          >
             <h1 className="text-white text-2xl font-extrabold">
               Join the Mune Family
             </h1>
@@ -70,7 +76,7 @@ const SignupPage = () => {
               Start your journey towards proactive pet health and join a
               community of dedicated pet owners in Kenya.
             </p>
-          </div>
+          </motion.div>
         </div>
         <div className="left-div md:w-1/2 w-full bg-background flex flex-col items-center md:items-start gap-4 p-6">
           <div className="flex flex-row gap-2 items-start md:items-center">
@@ -148,7 +154,9 @@ const SignupPage = () => {
                 <FaLock />
               </div>
             </div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1, y: -2 }}
+              whileTap={{ scale: 0.9, y: 1 }}
               disabled={loading}
               type="submit"
               className="bg-primary text-black w-full p-2 font-bold cursor-pointer rounded-lg hover:bg-secondary-foreground hover:text-white"
@@ -158,12 +166,14 @@ const SignupPage = () => {
               ) : (
                 <> Create Account</>
               )}
-            </button>
+            </motion.button>
           </form>
           <div>
             <p className="text-[13px]">
               Already have an account?{" "}
-              <Link href='/login' className="text-primary font-bold">Sign In</Link>
+              <Link href="/login" className="text-primary font-bold">
+                Sign In
+              </Link>
             </p>
           </div>
         </div>

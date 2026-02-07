@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 // import { OutbreakStatus } from "@/types/outbreak";
+import { motion } from "motion/react";
 
 const AlertForm = () => {
   const [form, setForm] = useState({
@@ -122,12 +123,15 @@ const AlertForm = () => {
         <option value="RESOLVED">RESOLVED</option>
       </select>
 
-      <button
+      <motion.button
+        whileHover={{ scale: 1.03, y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 300, damping: 18 }}
         disabled={loading}
         className="border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] "
       >
         {loading ? <ClipLoader color="white" size={15} /> : <> Post Alert</>}
-      </button>
+      </motion.button>
     </form>
   );
 };

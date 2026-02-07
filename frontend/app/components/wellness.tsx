@@ -1,11 +1,33 @@
+"use client";
 import { insights } from "@/lib/constants";
 import React from "react";
+import { motion } from "motion/react";
 
 const Wellness = () => {
+  const container = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center py-20 md:py-28">
       <div className="w-[90%] flex flex-col gap-20 items-center justify-center">
-        <div className="flex flex-col gap-2 items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="flex flex-col gap-2 items-center justify-center"
+        >
           <h3 className="md:text-[30px] text-[20px] text-center font-bold text-black">
             Complete Wellness Management
           </h3>
@@ -13,10 +35,17 @@ const Wellness = () => {
             Mune isn't just for emergencies. It's your daily companion for a
             long, happy life with your pet.
           </p>
-        </div>
-        <ul className="flex flex-col md:flex-row items-stretch justify-evenly gap-4">
+        </motion.div>
+        <motion.ul
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="flex flex-col md:flex-row items-stretch justify-evenly gap-4"
+        >
           {insights.map((insight) => (
-            <li
+            <motion.li
+              variants={item}
               key={insight.title}
               className="bg-[#f0fdf4] rounded-lg p-6 flex flex-col gap-4 items-center justify-center"
             >
@@ -29,9 +58,9 @@ const Wellness = () => {
               <p className="text-[14px] md:text-[18px] text-center text-black font-light">
                 {insight.description}
               </p>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
     </div>
   );

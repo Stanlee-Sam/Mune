@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
+import { motion } from "motion/react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -58,7 +59,12 @@ const LoginPage = () => {
       <div className="flex md:w-[80%] w-[90%] rounded-xl overflow-hidden items-stretch min-h-125">
         <div className="right-div hidden md:flex md:w-1/2 relative">
           <Image fill className="object-cover" src={hero} alt="" />
-          <div className="absolute bottom-10 left-5 flex flex-col p-6 gap-2 justify-center items-start  w-[90%] bg-cover rounded-[20px] bg-white/25 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-md border border-white/18">
+          <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2 }}
+            className="absolute bottom-10 left-5 flex flex-col p-6 gap-2 justify-center items-start  w-[90%] bg-cover rounded-[20px] bg-white/25 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-md border border-white/18"
+          >
             <h1 className="text-white text-2xl font-extrabold">
               Welcome back!
             </h1>
@@ -66,7 +72,7 @@ const LoginPage = () => {
               Access Kenya&apos;s leading pet health early-warning system and
               keep your furry friend safe
             </p>
-          </div>
+          </motion.div>
         </div>
         <div className="left-div md:w-1/2 w-full bg-background flex flex-col items-center md:items-start gap-4 p-6">
           <div className="flex flex-row gap-2 items-start md:items-center">
@@ -122,13 +128,15 @@ const LoginPage = () => {
                 <FaLock />
               </div>
             </div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1, y: -2 }}
+              whileTap={{ scale: 0.9, y: 1 }}
               disabled={loading}
               type="submit"
               className="bg-primary text-black w-full p-2 font-bold cursor-pointer rounded-lg hover:bg-secondary-foreground hover:text-white"
             >
               {loading ? <ClipLoader color="white" size={15} /> : <> Login</>}
-            </button>
+            </motion.button>
           </form>
           <div>
             <p className="text-[13px]">

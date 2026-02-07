@@ -1,13 +1,20 @@
+"use client";
 import hero from "../../public/assets/hero.png";
 import Image from "next/image";
 import hero_svg from "../../public/assets/hero_svg.png";
 import Link from "next/link";
+import { motion } from "motion/react";
 
 const Hero = () => {
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center min-h-[calc(100vh-80px)] pt-2">
       <div className="w-[90%] flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="md:w-1/2 w-full flex flex-col md:gap-6 gap-3 md:items-start items-center">
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="md:w-1/2 w-full flex flex-col md:gap-6 gap-3 md:items-start items-center"
+        >
           <h1 className="md:text-[55px]/13 text-[30px]/9 font-bold text-black text-center md:text-left">
             Keep Your Furry Friend{" "}
             <span className="text-primary">Healthy & Happy.</span>
@@ -17,19 +24,42 @@ const Hero = () => {
             before they become emergencies and connect with local vets
             instantly.
           </p>
-          <Link href={'/symptoms'} className="md:my-3 text-[12px] md:text-[18px] cursor-pointer border font-bold py-2 px-2 md:py-2 md:px-6 bg-primary rounded-lg text-black hover:bg-secondary-foreground hover:text-white">
-            Get Started
-          </Link>
-          <div className="flex flex-row items-center gap-3 w-full justify-center md:justify-start">
+          <motion.div
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
+          >
+            <Link
+              href={"/symptoms"}
+              className="md:my-3 text-[12px] md:text-[18px] cursor-pointer border font-bold py-2 px-2 md:py-2 md:px-6 bg-primary rounded-lg text-black hover:bg-secondary-foreground hover:text-white inline-block"
+            >
+              Get Started
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ y: -4 }}
+            animate={{ y: [-4, 4, -4] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="flex flex-row items-center gap-3 w-full justify-center md:justify-start"
+          >
             <div className="md:w-20 w-15">
               <Image src={hero_svg} alt="" />
             </div>
             <p className="text-black md:text-gray-400 text-[10px] md:text-[12px]">
               Trusted by 500+ Nairobi Pet Owners
             </p>
-          </div>
-        </div>
-        <div className="md:w-1/2 w-full flex flex-row items-center justify-center md:justify-end">
+          </motion.div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2 }}
+          className="md:w-1/2 w-full flex flex-row items-center justify-center md:justify-end"
+        >
           <div
             className="relative md:w-[90%] w-full h-80 md:h-112.5 rounded-xl 
                   shadow-[0_0_60px_10px_rgba(34,197,94,0.35)]
@@ -42,7 +72,7 @@ const Hero = () => {
               className="object-cover rounded-xl"
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

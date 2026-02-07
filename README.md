@@ -9,9 +9,10 @@ Mune is a pet health early-warning platform that helps owners and vets monitor s
 - Authentication with role-based access (OWNER, VET)
 
 ## Tech Stack
-- Frontend: Next.js (App Router), React, Tailwind CSS, Sonner, Axios
-- Backend: Node.js, Express, Prisma, PostgreSQL, JWT
-- Media: Cloudinary for clinic image uploads
+- Frontend: Next.js (App Router), React, React DOM, Tailwind CSS, Axios, Sonner, Motion, Next Themes, React Icons, React Spinners, Lucide, clsx, class-variance-authority, tailwind-merge, jwt-decode
+- Frontend Dev: TypeScript, ESLint, @types/node, @types/react, @types/react-dom, Tailwind CSS, @tailwindcss/postcss, tw-animate-css
+- Backend: Node.js, Express, Prisma, PostgreSQL, jsonwebtoken (JWT), bcrypt, multer, Cloudinary (multer-storage-cloudinary), dotenv, CORS
+- Backend Dev: nodemon
 
 ## Project Structure
 - `frontend/` Next.js client app

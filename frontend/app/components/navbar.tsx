@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FaPaw } from "react-icons/fa6";
 import { TiThMenu } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
+import { AnimatePresence, motion } from "motion/react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,21 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const container = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 1 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
@@ -67,27 +83,41 @@ const Navbar = () => {
             </button>
           )}
         </div>
-        {isOpen && (
-          <div className="absolute left-0 top-full w-full bg-background-gray shadow-md md:hidden h-[40vh] flex flex-col items-center justify-center">
-            <ul className="flex flex-col items-center justify-center gap-2 p-4 w-full">
-              {navLinks.map((link) => (
-                <li
-                  key={link.name}
-                  className="w-full flex flex-col items-center justify-center"
-                >
-                  <Link
-                    href={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block rounded-lg p-2 text-center mb-1 text-[15px] font-semibold text-black hover:bg-primary hover:text-white w-full"
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="absolute left-0 top-full w-full bg-background-gray shadow-md md:hidden h-[40vh] flex flex-col items-center justify-center"
+            >
+              <motion.ul
+                variants={container}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col items-center justify-center gap-2 p-4 w-full"
+              >
+                {navLinks.map((link) => (
+                  <motion.li
+                    variants={item}
+                    key={link.name}
+                    className="w-full flex flex-col items-center justify-center"
                   >
-                    {link.name}
-                  </Link>
-                  <hr className="w-full" />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+                    <Link
+                      href={link.path}
+                      onClick={() => setIsOpen(false)}
+                      className="block rounded-lg p-2 text-center mb-1 text-[15px] font-semibold text-black hover:bg-primary hover:text-white w-full"
+                    >
+                      {link.name}
+                    </Link>
+                    <hr className="w-full" />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* <div>
           <Link href={'/symptoms'} className="cursor-pointer border font-bold p-2 bg-primary rounded-lg text-black text-[15px] hover:bg-secondary-foreground hover:text-white">

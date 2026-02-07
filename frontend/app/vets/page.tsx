@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ClipLoader, HashLoader } from "react-spinners";
 import { getUserFromToken } from "@/utils/auth";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 
 interface Clinic {
   id: string;
@@ -266,24 +267,42 @@ const Vets = () => {
   };
 
   const filteredClinics = clinics.filter((clinic) => {
-  const matchesSearch =
-    clinic.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    clinic.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      clinic.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      clinic.location.toLowerCase().includes(searchTerm.toLowerCase());
 
-  const matchesLocation = clinic.location
-    .toLowerCase()
-    .includes(locationTerm.toLowerCase());
+    const matchesLocation = clinic.location
+      .toLowerCase()
+      .includes(locationTerm.toLowerCase());
 
-  return matchesSearch && matchesLocation;
-});
+    return matchesSearch && matchesLocation;
+  });
 
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center py-16 md:py-24">
       <div className="w-[90%] flex flex-col gap-10">
         <div className="flex flex-col gap-4 items-center justify-center">
           <div className="flex flex-col md:flex-row w-full items-start md:justify-between gap-3">
-            <div className="flex flex-col  gap-2 items-start justify-center w-[70%]">
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2 }}
+              className="flex flex-col  gap-2 items-start justify-center w-[70%]"
+            >
               <h3 className="md:text-[30px] text-[20px] text-left font-bold text-black">
                 Find Trusted Veterinary Care
               </h3>
@@ -291,9 +310,12 @@ const Vets = () => {
                 Connect with verified clinics and emergency services across
                 Kenya. Your pet's health is our priority.
               </p>
-            </div>
+            </motion.div>
             {user?.role === "VET" && (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.03, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 onClick={toggleAdd}
                 className="flex flex-row gap-2 border bg-primary hover:bg-[#1e293b] hover:text-white cursor-pointer items-center justify-center py-2 px-2 md:py-2 md:px-6 rounded-lg text-black"
               >
@@ -301,7 +323,7 @@ const Vets = () => {
                   <FaCirclePlus />
                 </span>
                 <p className="font-bold "> Add Clinic</p>
-              </button>
+              </motion.button>
             )}
           </div>
           {openAdd && (
@@ -370,7 +392,10 @@ const Vets = () => {
 
               {/* Buttons */}
               <div className="flex gap-3">
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   type="submit"
                   disabled={loading}
                   className="bg-primary text-black font-bold px-4 py-2 rounded-lg"
@@ -380,20 +405,30 @@ const Vets = () => {
                   ) : (
                     "Save Clinic"
                   )}
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.03, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   type="button"
                   onClick={() => setOpenAdd(false)}
                   className="border px-4 py-2 rounded-lg"
                 >
                   Cancel
-                </button>
+                </motion.button>
               </div>
             </form>
           )}
-          <div className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full">
-            <div className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]">
+          <motion.div
+          initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2 }}
+          className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full">
+            <div
+              className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]"
+            >
               <div className="w-full relative">
                 <input
                   type="text"
@@ -419,16 +454,27 @@ const Vets = () => {
                 </span>
               </div>
             </div>
-            <button className="bg-[#1e293b] text-white border p-2 rounded-lg font-semibold cursor-pointer w-20 md:w-50 h-12  text-[12px] md:text-[18px]">
+            <motion.button
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
+              className="bg-[#1e293b] text-white border p-2 rounded-lg font-semibold cursor-pointer w-20 md:w-50 h-12  text-[12px] md:text-[18px]"
+            >
               Find a vet
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
         <div className="flex flex-col gap-4 items-center justify-center w-full">
           <div className="flex flex-col items-start w-full">
-            <h2 className="text-[20px] md:text-[30px] font-bold text-black text-left">
+            <motion.h2
+              initial={{ opacity: 0, y: -40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2 }}
+              className="text-[20px] md:text-[30px] font-bold text-black text-left"
+            >
               Featured Clinics
-            </h2>
+            </motion.h2>
           </div>
           {loading ? (
             <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
@@ -438,10 +484,27 @@ const Vets = () => {
             <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
               <p className="text-3xl font-bold text-black">No clinics found</p>
             </div>
+          ) : filteredClinics.length === 0 ? (
+            <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
+              <p className="text-3xl font-bold text-black">
+                No clinics match your search
+              </p>
+            </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-5 w-full">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              className="grid md:grid-cols-3 gap-5 w-full"
+            >
               {filteredClinics.map((clinic) => (
-                <div key={clinic.id} className="bg-white rounded-xl w-full">
+                <motion.div
+                  variants={item}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  key={clinic.id}
+                  className="bg-white rounded-xl w-full"
+                >
                   {editClinicId === clinic.id ? (
                     <div className="bg-white w-full rounded-xl p-6 flex flex-col gap-4">
                       <input
@@ -513,7 +576,14 @@ const Vets = () => {
 
                       {/* Buttons */}
                       <div className="flex gap-3">
-                        <button
+                        <motion.button
+                          whileHover={{ scale: 1.03, y: -1 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 18,
+                          }}
                           disabled={loading}
                           onClick={() => updateClinic(clinic.id)}
                           className="bg-primary text-black font-bold px-4 py-2 rounded-lg"
@@ -523,15 +593,22 @@ const Vets = () => {
                           ) : (
                             "Save Clinic"
                           )}
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
+                          whileHover={{ scale: 1.03, y: -1 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 18,
+                          }}
                           type="button"
                           onClick={() => cancelEdit()}
                           className="border px-4 py-2 rounded-lg"
                         >
                           Cancel
-                        </button>
+                        </motion.button>
                       </div>
                     </div>
                   ) : (
@@ -545,19 +622,33 @@ const Vets = () => {
                         />
                         {user?.role === "VET" && (
                           <div className="flex flex-row gap-1 absolute top-2 right-2 z-10">
-                            <button
+                            <motion.button
+                              whileHover={{ scale: 1.03, y: -1 }}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 18,
+                              }}
                               onClick={() => toggleEdit(clinic)}
                               className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
                             >
                               <IoPencil />
-                            </button>
-                            <button
+                            </motion.button>
+                            <motion.button
+                              whileHover={{ scale: 1.03, y: -1 }}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 18,
+                              }}
                               disabled={loading}
                               onClick={() => deleteClinic(clinic.id)}
                               className="p-2 bg-white rounded-full cursor-pointer hover:bg-black text-black hover:text-white"
                             >
                               <RiDeleteBin6Line />
-                            </button>
+                            </motion.button>
                           </div>
                         )}
 
@@ -588,15 +679,24 @@ const Vets = () => {
                           </span>
                           <p>{clinic.phone}</p>
                         </div>
-                        <button className="bg-primary text-white border p-2 rounded-lg font-bold cursor-pointer w-full text-[15px] md:text-[18px]">
+                        <motion.button
+                          whileHover={{ scale: 1.03, y: -1 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 18,
+                          }}
+                          className="bg-primary text-white border p-2 rounded-lg font-bold cursor-pointer w-full text-[15px] md:text-[18px]"
+                        >
                           Get Directions
-                        </button>
+                        </motion.button>
                       </div>
                     </>
                   )}
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>

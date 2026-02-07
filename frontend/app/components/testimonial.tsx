@@ -1,12 +1,33 @@
+"use client";
 import { testimonials } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRightLong, FaRegStar, FaStar } from "react-icons/fa6";
+import { motion } from "motion/react";
+
 const Testimonials = () => {
+    const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <div className="bg-white w-full flex flex-col items-center justify-center py-20 md:py-28">
       <div className="w-[90%] flex flex-col md:flex-row gap-20 items-center justify-center">
-        <div className="flex flex-col gap-4 items-start ">
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="flex flex-col gap-4 items-start "
+        >
           <h2 className="md:text-[30px] text-[20px] text-black font-bold">
             Stories from Mune Pet Parents
           </h2>
@@ -15,7 +36,7 @@ const Testimonials = () => {
             possible.
           </p>
           <Link
-            href="/login"
+            href="/symptoms"
             className="flex flex-row gap-2 items-center justify-center text-primary font-extrabold"
           >
             <p>Get Started</p>
@@ -23,10 +44,16 @@ const Testimonials = () => {
               <FaArrowRightLong />
             </span>
           </Link>
-        </div>
-        <ul className="flex flex-col md:flex-row gap-4 justify-evenly">
+        </motion.div>
+        <motion.ul
+        variants = {container}
+        initial ='hidden'
+        whileInView='visible'
+        viewport={{once : true, amount : 0.2}}
+        className="flex flex-col md:flex-row gap-4 justify-evenly">
           {testimonials.map((testimonial) => (
-            <li
+            <motion.li
+            variants={item}
               key={testimonial.name}
               className="flex flex-col gap-4 border-2 rounded-lg p-6"
             >
@@ -59,9 +86,9 @@ const Testimonials = () => {
                   ),
                 )}
               </div>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </div>
     </div>
   );

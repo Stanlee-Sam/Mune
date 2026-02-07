@@ -1,9 +1,12 @@
+'use client'
 import { IoIosWarning } from "react-icons/io";
 import { GiHospitalCross } from "react-icons/gi";
 import { TiTick } from "react-icons/ti";
 import { FaLocationDot } from "react-icons/fa6";
 import { ApiEvaluationResult } from "@/types/types";
 import { ACTION_UI, RISK_UI } from "@/lib/constants";
+import { motion } from "motion/react";
+
 
 type Props = {
   result?: ApiEvaluationResult | null;
@@ -13,6 +16,21 @@ const SymptomRecommendation = ({ result }: Props) => {
   const riskUI = result ? RISK_UI[result.riskLevel] : null;
   const actionUI = result ? ACTION_UI[result.action] : null;
  const RiskIcon = riskUI?.icon || (() => <span>?</span>);
+
+   const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+
    return (
    <div className="flex flex-col gap-7 w-full">
       {/* Recommendation Card */}
@@ -26,7 +44,10 @@ const SymptomRecommendation = ({ result }: Props) => {
 
         <hr />
 
-        <div
+        <motion.div
+        initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
           className={`${riskUI?.bg || "bg-gray-50"} flex gap-3 rounded-xl p-4 min-h-[100px]`}
         >
           <span className={`text-2xl ${riskUI?.badge || "text-gray-300"}`}>
@@ -41,26 +62,32 @@ const SymptomRecommendation = ({ result }: Props) => {
               {result?.explanation || "Please fill the form to see recommendations."}
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Actions Card */}
       <div className="bg-white px-8 py-10 rounded-xl min-h-[150px]">
         <h3 className="text-[18px] text-black font-bold mb-4">What You Should Do</h3>
-        <ul className="flex flex-col gap-6">
+        <motion.ul variants={container}
+          initial='hidden'
+          whileInView = 'visible'
+          viewport={{once : true, amount : 0.2}} className="flex flex-col gap-6">
+          
           {actionUI?.actions.length ? (
             actionUI.actions.map((action, index) => (
-              <li key={index} className="flex gap-3 items-center">
+              <motion.li variants={item}
+              transition={{duration : 0.6, ease : 'easeOut'}}
+              key={index} className="flex gap-3 items-center">
                 <span className="w-8 h-8 bg-gray-400 rounded-lg flex items-center justify-center font-semibold">
                   {index + 1}
                 </span>
                 <span className="text-black">{action}</span>
-              </li>
+              </motion.li>
             ))
           ) : (
             <li className="text-gray-400">No actions to display yet</li>
           )}
-        </ul>
+        </motion.ul>
       </div>
 
       {/* Outbreak warning */}

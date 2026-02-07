@@ -3,6 +3,8 @@ import { SymptomPayload } from "@/types/types";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
+import { motion } from "motion/react";
+
 
 const SYMPTOMS = [
   "Vomiting",
@@ -130,13 +132,16 @@ const SymptomsForm = ({onEvaluate, loading }: SymptomsFormProps) => {
           diagnosis.
         </p>
 
-        <button
+        <motion.button
+        whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
           className="border p-2 hover:bg-[#1e293b] hover:text-white cursor-pointer font-bold w-full  bg-primary rounded-lg text-black text-[15px] "
           type="submit"
           disabled={loading}
         >
           {loading ?<ClipLoader color="white" size={15} /> : "Analyze Symptoms"}
-        </button>
+        </motion.button>
       </form>
     </div>
   );

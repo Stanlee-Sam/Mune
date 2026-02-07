@@ -1,0 +1,38 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.4
+2 info using node@v22.22.0
+3 silly config load:file:C:\Users\user\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:H:\WebDev\Mune\backend\.npmrc
+5 silly config load:file:C:\Users\user\.npmrc
+6 silly config load:file:C:\Users\user\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm run dev
+8 verbose argv "run" "dev"
+9 verbose logfile logs-max:10 dir:H:\WebDev\Mune\backend\.npm-cache\_logs\2026-02-07T04_11_58_521Z-
+10 verbose logfile H:\WebDev\Mune\backend\.npm-cache\_logs\2026-02-07T04_11_58_521Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 http fetch GET 200 https://registry.npmjs.org/npm 1747ms
+14 verbose stack Error: Missing script: "dev"
+14 verbose stack
+14 verbose stack To see a list of scripts, run:
+14 verbose stack   npm run
+14 verbose stack     at #run (C:\Users\user\AppData\Roaming\npm\node_modules\npm\lib\commands\run.js:115:13)
+14 verbose stack     at async RunScript.exec (C:\Users\user\AppData\Roaming\npm\node_modules\npm\lib\commands\run.js:44:7)
+14 verbose stack     at async Npm.exec (C:\Users\user\AppData\Roaming\npm\node_modules\npm\lib\npm.js:208:9)
+14 verbose stack     at async module.exports (C:\Users\user\AppData\Roaming\npm\node_modules\npm\lib\cli\entry.js:67:5)
+15 error Missing script: "dev"
+15 error
+15 error To see a list of scripts, run:
+15 error   npm run
+16 verbose cwd H:\WebDev\Mune\backend
+17 verbose os Windows_NT 10.0.19045
+18 verbose node v22.22.0
+19 verbose npm  v11.6.4
+20 notice
+20 notice New [33mminor[39m version of npm available! [33m11.6.4[39m -> [34m11.9.0[39m
+20 notice Changelog: [34mhttps://github.com/npm/cli/releases/tag/v11.9.0[39m
+20 notice To update run: [4mnpm install -g npm@11.9.0[24m
+20 notice  { force: true, [Symbol(proc-log.meta)]: true }
+21 verbose exit 1
+22 verbose code 1
+23 error A complete log of this run can be found in: H:\WebDev\Mune\backend\.npm-cache\_logs\2026-02-07T04_11_58_521Z-debug-0.log

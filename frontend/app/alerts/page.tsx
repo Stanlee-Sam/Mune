@@ -12,6 +12,7 @@ import { getUserFromToken } from "@/utils/auth";
 import { ClipLoader, HashLoader } from "react-spinners";
 import api from "@/lib/axios";
 import { toast } from "sonner";
+import { motion } from "motion/react";
 
 interface Reporter {
   id: string;
@@ -177,19 +178,37 @@ const alertsPage = () => {
     }
   };
 
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="bg-background-gray w-full flex flex-col items-center justify-center py-5 md:py-18">
-      <div className="w-[90%] flex flex-col gap-10 md:gap-20 items-center justify-center">
+      <div className="w-[90%] flex flex-col gap-5 md:gap-10 items-center justify-center">
         {user?.role === "VET" && (
           <div className="w-full">
             <AlertsForm />
           </div>
         )}
-
-        <div className="w-full flex flex-col gap-5">
-          <h2 className="text-[20px] md:text-[30px] font-bold text-black">
-            Recent Alerts{" "}
-          </h2>
+        <motion.h2
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-[20px] w-full text-center md:text-left md:text-[30px] font-bold text-black"
+        >
+          Recent Alerts{" "}
+        </motion.h2>
+        <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {outbreaks.length === 0 ? (
             <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
               <p className="text-3xl font-bold text-black">
@@ -202,7 +221,11 @@ const alertsPage = () => {
             </div>
           ) : (
             outbreaks.map((outbreak) => (
-              <div
+              <motion.li
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2 }}
                 key={outbreak.id}
                 className="bg-white rounded-xl p-5 border flex flex-col gap-3"
               >
@@ -299,18 +322,35 @@ const alertsPage = () => {
                     </div>
                     <div className="flex flex-col gap-3 w-full">
                       <div className="flex flex-row justify-evenly w-full">
-                        <Link
-                          href={`alerts/${outbreak.id}`}
-                          className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-blue-400 hover:bg-blue-200 text-[25px] flex items-center gap-2 border-black"
+                        <motion.div
+                          whileHover={{ scale: 1.03, y: -1 }}
+                          whileTap={{ scale: 0.98 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 18,
+                          }}
                         >
-                          <CgDetailsMore className="md:hidden" />
-                          <span className="hidden md:inline text-[15px]">
-                            More Details
-                          </span>
-                        </Link>
+                          <Link
+                            href={`alerts/${outbreak.id}`}
+                            className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-blue-400 hover:bg-blue-200 text-[25px] flex items-center gap-2 border-black"
+                          >
+                            <CgDetailsMore className="md:hidden" />
+                            <span className="hidden md:inline text-[15px]">
+                              More Details
+                            </span>
+                          </Link>
+                        </motion.div>
                         {user?.role === "VET" && (
                           <>
-                            <button
+                            <motion.button
+                              whileHover={{ scale: 1.03, y: -1 }}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 18,
+                              }}
                               onClick={() => toggleEdit(outbreak)}
                               className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-blue-400 hover:bg-blue-200 text-[25px] flex items-center gap-2 border-black"
                             >
@@ -318,9 +358,16 @@ const alertsPage = () => {
                               <span className="hidden md:inline text-[15px]">
                                 Edit
                               </span>
-                            </button>
+                            </motion.button>
 
-                            <button
+                            <motion.button
+                              whileHover={{ scale: 1.03, y: -1 }}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 18,
+                              }}
                               disabled={loading}
                               onClick={() => deleteOutbreak(outbreak.id)}
                               className="border-2 p-2 rounded-lg cursor-pointer font-bold bg-red-400 hover:bg-red-200 text-[25px] flex items-center gap-2 border-black"
@@ -333,7 +380,7 @@ const alertsPage = () => {
                                   <> Delete</>
                                 )}
                               </span>
-                            </button>
+                            </motion.button>
                           </>
                         )}
                       </div>
@@ -345,10 +392,10 @@ const alertsPage = () => {
                     </div>
                   </>
                 )}
-              </div>
+              </motion.li>
             ))
           )}
-        </div>
+        </ul>
       </div>
     </div>
   );
