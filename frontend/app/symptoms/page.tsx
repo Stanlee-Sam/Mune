@@ -6,15 +6,18 @@ import api from "@/lib/axios";
 import axios from "axios";
 import { toast } from "sonner";
 import { ApiEvaluationResult, SymptomPayload } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 const Symptoms = () => {
   const [result, setResult] = useState<ApiEvaluationResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const evaluateSymptoms = async (payload: SymptomPayload) => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Invalid token. Please login first");
+      router.push('/login')
       return;
     }
 

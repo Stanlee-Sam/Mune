@@ -213,19 +213,19 @@ const alertsPage = () => {
         >
           Recent Alerts{" "}
         </motion.h2>
-        <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {outbreaks.length === 0 ? (
-            <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
-              <p className="text-3xl font-bold text-black">
-                No alerts posted yet.
-              </p>
-            </div>
-          ) : loading ? (
-            <div className="flex justify-center items-center h-[50vh] md:h-[80vh]">
-              <HashLoader color="#13ec13" />
-            </div>
-          ) : (
-            outbreaks.map((outbreak) => (
+        {loading ? (
+          <div className="w-full min-h-[60vh] flex items-center justify-center">
+            <HashLoader color="#13ec13" />
+          </div>
+        ) : outbreaks.length === 0 ? (
+          <div className="w-full min-h-[60vh] flex items-center justify-center">
+            <p className="text-3xl font-bold text-black">
+              No alerts posted yet.
+            </p>
+          </div>
+        ) : (
+          <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-5">
+            {outbreaks.map((outbreak) => (
               <motion.li
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -398,9 +398,9 @@ const alertsPage = () => {
                   </>
                 )}
               </motion.li>
-            ))
-          )}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { HashLoader } from "react-spinners";
 import Link from "next/link";
 import { motion } from "motion/react";
+import api from "@/lib/axios";
 
 interface Outbreak {
   diseaseName: string;
@@ -39,8 +40,8 @@ const DetailedAlert = () => {
 
     const fetchOutbreak = async () => {
       try {
-        const response = await axios.get<OutbreakResponse>(
-          `http://localhost:5000/outbreaks/${id}`,
+        const response = await api.get<OutbreakResponse>(
+          `/outbreaks/${id}`,
         );
         setOutbreak(response.data.outbreak);
       } catch (error) {
@@ -257,7 +258,7 @@ const DetailedAlert = () => {
             </motion.h3>
             <div className="flex flex-col gap-3">
               {EmergencyContacts.map((contact) => (
-                <div className="flex flex-row gap-3 items-start">
+                <div key ={contact.title} className="flex flex-row gap-3 items-start">
                   <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-100 text-gray-700 text-[15px]">
                     <FaSquarePlus />
                   </div>
