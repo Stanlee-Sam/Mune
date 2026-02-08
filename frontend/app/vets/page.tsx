@@ -431,7 +431,7 @@ const Vets = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 2 }}
-            className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full"
+            className="bg-white rounded-lg p-2 flex flex-row gap-2 justify-between items-center w-full"
           >
             <div className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]">
               <div className="w-full relative">
