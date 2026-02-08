@@ -168,7 +168,7 @@ const DetailedAlert = () => {
                   key={precaution.title}
                   className="flex items-start gap-4 bg-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 text-blue-600 text-2xl">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 text-blue-600 text-[15px] md:text-[20px]">
                     <precaution.icon />
                   </div>
 
