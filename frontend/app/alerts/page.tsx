@@ -293,7 +293,7 @@ const alertsPage = () => {
                 ) : (
                   <>
                     <div className="flex justify-between items-center">
-                      <h3 className="text-lg font-bold text-black">
+                      <h3 className="lg:text-lg md:text-md text-sm font-bold text-black">
                         {outbreak.diseaseName}
                       </h3>
                       {outbreak.status === "ACTIVE" ? (
