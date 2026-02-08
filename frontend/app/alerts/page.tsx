@@ -39,7 +39,12 @@ interface updatedOutbreakResponse {
 const alertsPage = () => {
   const [outbreaks, setOutbreaks] = useState<Outbreak[]>([]);
   const [loading, setLoading] = useState(false);
-  const user = getUserFromToken();
+  const [user, setUser] = useState<{ role?: string } | null>(null);
+
+  useEffect(() => {
+    const u = getUserFromToken();
+    setUser(u);
+  }, []);
 
   //edit alert
   const [editAlertId, setEditAlertId] = useState<string | null>();

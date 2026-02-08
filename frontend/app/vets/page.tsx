@@ -53,8 +53,14 @@ const Vets = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [locationTerm, setLocationTerm] = useState("");
 
-  const user = getUserFromToken();
   const router = useRouter();
+
+  const [user, setUser] = useState<{ role?: string } | null>(null);
+
+  useEffect(() => {
+    const u = getUserFromToken();
+    setUser(u);
+  }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -421,14 +427,13 @@ const Vets = () => {
             </form>
           )}
           <motion.div
-          initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2 }}
-          className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full">
-            <div
-              className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]"
-            >
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2 }}
+            className="bg-white rounded-lg p-2 flex flex-row justify-between items-center w-full"
+          >
+            <div className="flex flex-col md:flex-row justify-between items-left gap-2 w-[80%]">
               <div className="w-full relative">
                 <input
                   type="text"
