@@ -94,7 +94,7 @@ const Pros = () => {
                 <TiTick />
               </div>
               <p className="text-secondary text-[12px] font-light">
-                Tick fever outbreake detected in Karen. Alert sent.
+                Tick fever outbreak detected in Karen. Alert sent.
               </p>
             </motion.div>
           </motion.div>

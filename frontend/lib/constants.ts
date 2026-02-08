@@ -37,7 +37,7 @@ export const steps = [
     icon: BiSolidBellRing,
     title: "Get Alerts",
     description:
-      "Receive instant red flags if something looks wrond and get directed to the nearest vet.",
+      "Receive instant red flags if something looks wrong and get directed to the nearest vet.",
   },
 ];
 
@@ -46,7 +46,7 @@ export const pros = [
     icon: FaLocationDot,
     title: "Location-Based Alerts",
     description:
-      "Receive warnings about diseases outbreaks reported in your specif neighborhood in Nairobi, Mombasa or Kisumu.",
+      "Receive warnings about disease outbreaks reported in your specific neighborhood in Nairobi, Mombasa or Kisumu.",
   },
   {
     icon: IoIosSunny,
@@ -58,7 +58,7 @@ export const pros = [
     icon: GiHospitalCross,
     title: "Verified Vet Network",
     description:
-      "Access a directory of KVB-registered vererinarians and 24/7 emergency clinics near you.",
+      "Access a directory of KVB-registered veterinarians and 24/7 emergency clinics near you.",
   },
 ];
 
@@ -77,7 +77,7 @@ export const insights = [
   },
   {
     icon: FaCarOn,
-    title: "Act promptly be seeking veterinary care when needed",
+    title: "Act promptly by seeking veterinary care when needed",
     description:
       "Connect instantly with professionals to ensure your pet receives the necessary medical attention right away.",
   },
@@ -90,7 +90,7 @@ export const testimonials = [
     location: "Nairobi, Kilimani",
     rating: 5,
     message:
-      "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!.",
+      "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!",
   },
   {
     img: Kevin,
@@ -98,7 +98,7 @@ export const testimonials = [
     location: "Mombasa, Nyali",
     rating: 5,
     message:
-      "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!.",
+      "Mune helped me catch Simba's tick fever early. The app noticed his lethargy before I did. It really saved his life!",
   },
 ];
 
@@ -128,7 +128,7 @@ export const precautions = [
     icon: FaHandsWash,
     title: "Practice Hygiene",
     description:
-      "Wash hands thouroughly after handling other animals or visiting public pet areas.",
+      "Wash hands thoroughly after handling other animals or visiting public pet areas.",
   },
   {
     icon: AiFillStop,

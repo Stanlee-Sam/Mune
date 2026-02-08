@@ -301,7 +301,7 @@ const DetailedAlert = () => {
             >
               <h1 className="text-primary text-[15px] font-bold">MUNE</h1>
               <p className="text-secondary text-2xl font-bold">
-                Get real-time alerts four your neighbourhood.
+                Get real-time alerts for your neighbourhood.
               </p>
             </motion.div>
           </motion.div>

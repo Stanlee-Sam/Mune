@@ -34,7 +34,7 @@ const Footer = () => {
             <h3 className="text-[25px] font-extrabold text-black">Mune</h3>
           </div>
           <p className="text-[14px] md:text-[18px]  text-black font-light">
-            Empowering Kenyan pet ownwers with technology and community.
+            Empowering Kenyan pet owners with technology and community.
           </p>
         </motion.div>
         <div className="flex flex-col md:flex-row items-stretch justify-evenly gap-4 md:w-[65%] w-full">

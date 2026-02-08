@@ -31,7 +31,7 @@ const Steps = () => {
             Simple steps to better pet health
           </h3>
           <p className="text-gray-500 font-semibold text-[12px] md:text-[18px] text-center">
-            We make it easy to monitor your pet's well being in just a few
+            We make it easy to monitor your pet's well-being in just a few
             clicks, tailored for the busy lifestyle.
           </p>
         </motion.div>
