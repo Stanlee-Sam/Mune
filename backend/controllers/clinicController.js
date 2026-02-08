@@ -14,13 +14,24 @@ const addClinic = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    
+    let imageUrl = null;
+
+    // Only upload if file exists
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "vet-clinics",
+      });
+      imageUrl = result.secure_url;
+    }
+
     const newClinic = await prisma.vetClinic.create({
       data: {
         name,
         location,
         phone,
         emergencyAvailable: emergencyAvailableBool,
-        imageUrl: req.file.path,
+        imageUrl,
       },
     });
     res.json({ newClinic });
