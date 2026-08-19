@@ -19,6 +19,10 @@ app.use(
   }),
 );
 
+app.get("/health", (req, res) => {
+res.status(200).send("Server is awake");
+});
+
 //evaluate route
 app.use("/", evaluateRoute);
 //users route
